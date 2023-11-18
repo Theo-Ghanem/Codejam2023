@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { MeetingsComponent } from './pages/meetings/meetings.component';
+import { AssignmentsComponent } from './pages/assignments/assignments.component';
+import { TestsComponent } from './pages/tests/tests.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
     BrowserModule,
     AppRoutingModule,
     LoginComponent,
-    SidebarComponent
+    SidebarComponent,
+    MeetingsComponent,
+    AssignmentsComponent,
+    TestsComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

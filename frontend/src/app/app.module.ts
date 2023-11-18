@@ -8,6 +8,9 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { AssignmentsComponent } from './pages/assignments/assignments.component';
 import { TestsComponent } from './pages/tests/tests.component';
+import {MeetingComponent} from "./pages/meetings/meeting/meeting.component";
+import {AssignmentComponent} from "./pages/assignments/assignment/assignment.component";
+import {TestComponent} from "./pages/tests/test/test.component";
 
 @NgModule({
   declarations: [
@@ -19,8 +22,11 @@ import { TestsComponent } from './pages/tests/tests.component';
     LoginComponent,
     SidebarComponent,
     MeetingsComponent,
+    MeetingComponent,
     AssignmentsComponent,
-    TestsComponent
+    AssignmentComponent,
+    TestsComponent,
+    TestComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

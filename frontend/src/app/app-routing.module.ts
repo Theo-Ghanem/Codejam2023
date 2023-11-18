@@ -14,32 +14,26 @@ const routes: Routes = [
   {
     path: 'meetings',
     component: MeetingsComponent,
-    children: [
-      {
-        path: 'meeting/:id',
-        loadComponent: () => import('./pages/meetings/meeting/meeting.component').then(m => m.MeetingComponent)
-      }
-    ]
+  },
+  {
+    path: 'meetings/:id',
+    loadComponent: () => import('./pages/meetings/meeting/meeting.component').then(m => m.MeetingComponent)
   },
   {
     path: 'tests',
     component: TestsComponent,
-    children: [
-      {
-        path: 'test/:id',
-        loadComponent: () => import('./pages/tests/test/test.component').then(m => m.TestComponent)
-      }
-    ]
+  },
+  {
+    path: 'tests/:id',
+    loadComponent: () => import('./pages/tests/test/test.component').then(m => m.TestComponent)
   },
   {
     path: 'assignments',
     component: AssignmentsComponent,
-    children: [
-      {
-        path: 'assignment/:id',
-        loadComponent: () => import('./pages/assignments/assignment/assignment.component').then(m => m.AssignmentComponent)
-      }
-    ]
+  },
+  {
+    path: 'assignments/:id',
+    loadComponent: () => import('./pages/assignments/assignment/assignment.component').then(m => m.AssignmentComponent)
   },
   {
     path: 'profile',

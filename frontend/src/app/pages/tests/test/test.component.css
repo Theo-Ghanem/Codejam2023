@@ -1,0 +1,12 @@
+.custom-marker {
+  height: 2rem;
+  width: 2rem;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.custom-icon {
+  margin: 0.5rem;
+  color: #fff;
+}

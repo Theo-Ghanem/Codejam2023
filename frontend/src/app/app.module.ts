@@ -8,13 +8,13 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    SidebarComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LoginComponent,
+    SidebarComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -12,6 +12,7 @@ import {AccordionModule} from "primeng/accordion";
 import {CheckboxModule} from "primeng/checkbox";
 import {DialogModule} from "primeng/dialog";
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
+import { GradeService } from 'src/app/services/grade.service';
 
 @Component({
   selector: 'app-test',
@@ -32,15 +33,33 @@ import {animate, query, stagger, style, transition, trigger} from "@angular/anim
     ])
   ]
 })
+
+
 export class TestComponent implements OnInit{
   topics: TopicItem[] = [];
-  grade: number = 50;
-  weight: number = 50;
   completedColor: string = '#34a224';
   incompleteColor: string = '#FF9800';
   showPopup: boolean = false;
   selectedTopic: TopicItem = new TopicItem();
+  grades: number[] = [];
+  grade: number = 50;
+  weight: number = 50;
+  // grade = this.grades[0];
+  // weight = this.grades[1];
+  
+  constructor(private gradeService: GradeService) {}
+
   ngOnInit() {
+    this.gradeService.getGrade().subscribe((data: any[]) => {
+      // this.grades = data;
+      console.log(data);
+      // if (data.grade != null, data.weight != null){
+
+      // }
+      // this.grade = data.grade;
+      // this.weight = data.weight;
+    });
+
     this.topics = [
       { title: 'Lecture 1', icon: 'pi pi-book', completed: false},
       { title: 'Lecture 2', icon: 'pi pi-book', completed: false},
@@ -70,3 +89,4 @@ export class TestComponent implements OnInit{
   onUpload(event: FileUploadHandlerEvent) {
   }
 }
+

@@ -20,6 +20,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { TestsComponent } from 'app/tests/tests.component';
 import { TestComponent } from 'app/tests/test/test.component';
 import { AssignmentComponent } from 'app/assignments/assignment/assignment.component';
+import {ProfileComponent} from "../../profile/profile.component";
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { AssignmentComponent } from 'app/assignments/assignment/assignment.compo
     MatTooltipModule,
     TestsComponent,
     TestComponent,
-    AssignmentComponent
+    AssignmentComponent,
+    ProfileComponent
   ],
   declarations: [
     DashboardComponent,

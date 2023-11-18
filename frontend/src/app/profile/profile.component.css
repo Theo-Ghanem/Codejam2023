@@ -1,0 +1,48 @@
+.x-button {
+    margin-right: 0rem;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #f8f8f8 !important;
+        text-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.32) !important;
+    }
+}
+
+.p-card-content {
+    padding: 0;
+}
+
+p-accordion .p-accordion-header .p-accordion-header-link {
+    padding: 1.25rem;
+    border: none;
+    background-color: #1d2250;
+    colour: white;
+    font-weight: 700;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+    width: 98%;
+    margin: auto;
+    z-index: 2;
+
+    &:hover {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    &:not(.p-highlight):not(.p-disabled) {
+        color: white;
+    }
+}
+
+.p-accordion .p-accordion-content {
+    position: relative;
+    top: -20px;
+    z-index: 1;
+    padding: 1.25rem;
+    border: 1px solid #f5f5f5;
+    border-radius: 6px;
+    box-shadow: 1px 2px 5px 0 rgba(0, 0, 0, 0.2);
+}

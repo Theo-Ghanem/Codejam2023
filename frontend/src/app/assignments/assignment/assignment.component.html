@@ -12,16 +12,6 @@
           </form>
       </ng-template>
     </div>
-    <!-- <div class="card">
-       <p-inplace >
-           <ng-template pTemplate="display">
-               <span>{{title}}</span>
-           </ng-template>
-           <ng-template pTemplate="content">
-               <input type="text" value="{{title}}" [(ngModel)]="title" pInputText />
-           </ng-template>
-       </p-inplace>
-   </div> -->
      <button pButton icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true"></button>
     <!-- Adding other collaborators field -->
  </div>
@@ -30,10 +20,7 @@
      <p-accordionTab header="Assignment Timeline">
        <div class="mt-4">
          <div class="uploadImage" *ngIf="!showProgress">
-           <p>
-             Upload a File
-           </p>
-           <p-fileUpload class="w-full" mode="basic" chooseLabel="Choose" 
+           <p-fileUpload class="w-full" mode="basic" chooseLabel="Upload a File" 
                              [customUpload]="true" accept="image/*" [maxFileSize]="1000000" [fileLimit]="1"
                              (uploadHandler)="onUpload($event)" [auto]="true"></p-fileUpload>
          </div>
@@ -41,7 +28,7 @@
            <p>Progress</p>
            <p-progressBar [value]="topicProgress"></p-progressBar>
          </div>
-         <p-timeline [@timelineAnimation]="topics.length" [value]="topics" align="alternate" styleClass="customized-timeline">
+         <p-timeline [@timelineAnimation]="topics.length" *ngIf="showProgress" [value]="topics" align="alternate" styleClass="customized-timeline">
            <ng-template pTemplate="marker" let-topic>
            <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
                <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
@@ -75,6 +62,9 @@
              <input class=" w-full" pInputText id="grade" [(ngModel)]="grade"/>
              <label htmlFor="grade">Grade</label>
            </span>
+           <span class="flex m-4">
+            <button pButton label="Save" (click)="saveGrade()" class="p-button-text p-1" style="background-color: aliceblue; border-radius:10%; width:100px"></button>
+           </span>
          </div>
        </p-accordionTab>
    </p-accordion>
@@ -83,13 +73,17 @@
        <textarea class="w-full" rows="10" [(ngModel)]="selectedTopic.notes"></textarea>
      </p>
    </p-dialog>
-   <p-dialog [header]="selectedTopic?.title + ' Assignees'" [(visible)]="showPopupAssignees" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
-       <p class="m-0" *ngFor="let a of selectedTopic?.assignees">{{a}}</p>
+   <p-dialog [header]="selectedTopic?.title + ' Assignees'" [(visible)]="showPopupAssignees" [modal]="true" [style]="{ width: '50vw'}" [draggable]="false" [maximizable]="true">
+      <span style="justify-content: center;"> 
+        <p class="m-0" *ngFor="let a of selectedTopic?.assignees">{{a}}</p>
+        <p-dropdown placeholder="Select an Assignee" [(ngModel)]="newAssignee" [options]="selectedTopic?.assignees" [style]="{overflow: 'visible'}"></p-dropdown>
+        <button pButton label="Remove" class="p-button-text p-1" (click)="removeAssignee()"></button>
+      </span>
    </p-dialog>
    <p-dialog [header]="'Add Assignee'" [(visible)]="showAddAssignees" [modal]="true" [style]="{ width: '50vw', height: '15vw', overflow:'visible'}" [draggable]="false" [maximizable]="true">
      <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2">
        <input pInputText [(ngModel)]="newAssignee"/>
-       <p-dropdown optionLabel="name" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topics" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
+       <p-dropdown placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topics" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
        <button pButton label="Add" class="p-button-text p-1" (click)="addAssignee()"></button>
      </p>
    </p-dialog>

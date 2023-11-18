@@ -10,6 +10,7 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { TestComponent } from 'app/tests/test/test.component';
 import { TestsComponent } from 'app/tests/tests.component';
+import { AssignmentComponent } from 'app/assignments/assignment/assignment.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -64,5 +65,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'upgrade',        component: UpgradeComponent },
     { path: 'tests',        component: TestsComponent },
     { path: 'tests/:id',        component: TestComponent },
+    { path: 'assignments/:id',    component:AssignmentComponent}
 
 ];

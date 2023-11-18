@@ -50,8 +50,8 @@ export class AssignmentComponent implements OnInit{
   completedColor: string = '#34a224';
   incompleteColor: string = '#FF9800';
   showPopup: boolean = false;
-  grade:number = 50;
-  weight:number = 50;
+  grade:number = 0;
+  weight:number = 0;
   showProgress: boolean = true;
   showPopupAssignees:boolean = false;
   showAddAssignees:boolean = false;
@@ -98,6 +98,16 @@ export class AssignmentComponent implements OnInit{
     }
   }
 
+  removeAssignee() {
+    if(this.newAssignee){
+      const index = this.selectedTopic.assignees.indexOf(this.newAssignee, 0);
+      if (index > -1) {
+        this.selectedTopic.assignees = this.selectedTopic.assignees.splice(index, 1);
+        this.newAssignee="";
+     }
+    }
+  }
+
   updateProgress(){
     let completedTopic:number = 0;
     for (let t of this.topics) {
@@ -126,4 +136,7 @@ export class AssignmentComponent implements OnInit{
     this.showInput = true;
   }
 
+  saveGrade(){
+
+  }
 }

@@ -1,1 +1,57 @@
-
+<div class="">
+   <!-- Adding title field -->
+   <app-dynamic-title>
+   </app-dynamic-title>
+   <!-- Adding other collaborators field -->
+</div>
+<div>
+    <p-accordion [multiple]="true" [activeIndex]="[0, 1]">
+      <p-accordionTab header="Study">
+        <div class="mt-4">
+          <p-timeline [@timelineAnimation]="topics.length" [value]="topics" align="alternate" styleClass="customized-timeline">
+            <ng-template pTemplate="marker" let-topic>
+            <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
+                <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
+            </span>
+            </ng-template>
+            <ng-template pTemplate="content" let-topic>
+              <p-card *ngIf="topic.title !== 'Add'">
+                <ng-template pTemplate="header">
+                  <div class="flex flex-grow-1 align-content-center justify-content-between p-2 px-3">
+                    <h2  class="m-0">{{topic.title}}</h2>
+                    <i class="x-button py-2 pi pi-times" (click)="removeTopic(topic)"></i>
+                  </div>
+                </ng-template>
+                <p-fileUpload *ngIf="!topic.file" class="w-full" mode="basic" chooseLabel="Choose" name="demo[]"
+                              [customUpload]="true" accept="image/*" [maxFileSize]="1000000" [fileLimit]="1"
+                              (uploadHandler)="onUpload($event)" [auto]="true"></p-fileUpload>
+                <div *ngIf="!topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
+                  <button pButton label="Notes" class="p-button-text p-1" (click)="showNotes(topic)"></button>
+                  <p-checkbox [(ngModel)]="topic.completed" [binary]="true" inputId="binary"></p-checkbox>
+                </div>
+              </p-card>
+            </ng-template>
+          </p-timeline>
+        </div>
+      </p-accordionTab>
+  
+      <p-accordionTab header="Grade">
+        <div class="flex flex-grow-1 align-content-center justify-content-between mt-4">
+          <span class="p-float-label flex flex-grow-1 m-4">
+            <input class=" w-full" pInputText id="weight" [(ngModel)]="weight"/>
+            <label htmlFor="weight">Weight</label>
+          </span>
+          <span class="p-float-label flex flex-grow-1 m-4">
+            <input class=" w-full" pInputText id="grade" [(ngModel)]="grade"/>
+            <label htmlFor="grade">Grade</label>
+          </span>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+  
+    <p-dialog [header]="selectedTopic?.title + ' Notes'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
+      <p class="m-0">
+        <textarea class="w-full" rows="10" [(ngModel)]="selectedTopic.notes"></textarea>
+      </p>
+    </p-dialog>
+  </div>

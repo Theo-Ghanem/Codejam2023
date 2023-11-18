@@ -39,6 +39,29 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
+  activeRoute: string = '';
+  ROUTES = [
+    { 
+      path: '/tests', 
+      title: 'Tests',  
+      icon:'library_books', 
+      class: '', 
+      subRoutes: [
+          { path: '/tests/1', title: 'Test 1', icon: 'content_paste', class: '' },
+          { path: '/tests/2', title: 'Test 2', icon: 'content_paste', class: '' },
+          // Add more subroutes as needed
+      ] 
+    },
+    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
+    { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
+    { path: '/table-list', title: 'Assignment Planning',  icon:'content_paste', class: '' },
+    // { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
+    // { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
+    // { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },
+    // { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
+    // { path: '/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
+    // Add more routes as needed
+  ];
 
   constructor() { }
 
@@ -51,4 +74,7 @@ export class SidebarComponent implements OnInit {
       }
       return true;
   };
+  setActiveRoute(route: string): void {
+    this.activeRoute = route;
+  }
 }

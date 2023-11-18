@@ -9,7 +9,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./meeting.component.css']
 })
 export class MeetingComponent {
-  date!: String;
+  date!: Date;
+  name!: String;
   happened!: boolean;
 
 

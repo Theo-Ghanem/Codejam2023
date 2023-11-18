@@ -11,6 +11,7 @@ import { TestsComponent } from './pages/tests/tests.component';
 import {MeetingComponent} from "./pages/meetings/meeting/meeting.component";
 import {AssignmentComponent} from "./pages/assignments/assignment/assignment.component";
 import {TestComponent} from "./pages/tests/test/test.component";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [

@@ -1,16 +1,21 @@
-<p>meetings works!</p>
-<p-table [value]="meetings" [tableStyle]="{'min-width': '50rem'}">
+<p>What are your upcoming meetings?</p>
+<p>This is the test String {{this.test}}</p>
+<p-button label="Add Meeting" (onClick)="addMeeting()"></p-button>
+<p-table [value]="meetings" selectionMode="single" [(selection)]="selectedMeeting" dataKey="name"
+(onRowSelect)="onRowSelect($event)" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header">
         <tr>
             <th>Date</th>
+            <th>Name</th>
             <th>Happened</th>
             <!-- <th>Category</th>
             <th>Quantity</th> -->
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-meeting>
-        <tr>
+        <tr [pSelectableRow]="meeting">
             <td>{{meeting.date}}</td>
+            <td>{{meeting.name}}</td>
             <td>{{meeting.happened}}</td>
             <!-- <td>{{product.category}}</td> -->
             <!-- <td>
@@ -21,3 +26,4 @@
         </tr>
     </ng-template>
   </p-table>
+  <iframe id="frame-id" src="https://www.when2meet.com/"></iframe>

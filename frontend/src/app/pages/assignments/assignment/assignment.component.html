@@ -2,18 +2,22 @@
    <!-- Adding title field -->
    <app-dynamic-title>
    </app-dynamic-title>
-    <button pButton icon="pi pi-user-plus" class="p-button-text p-1" ></button>
+    <button pButton icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true"></button>
    <!-- Adding other collaborators field -->
 </div>
 <div>
   <div class="mt-4">
       <div class="uploadImage" *ngIf="!showProgress">
+        <p>
+          Upload a File
+        </p>
         <p-fileUpload class="w-full" mode="basic" chooseLabel="Choose" 
                           [customUpload]="true" accept="image/*" [maxFileSize]="1000000" [fileLimit]="1"
                           (uploadHandler)="onUpload($event)" [auto]="true"></p-fileUpload>
       </div>
       <div class="uploadImage" *ngIf="showProgress">
-        <p-progressBar [value]="50"></p-progressBar>
+        <p>Progress</p>
+        <p-progressBar [value]="topicProgress"></p-progressBar>
       </div>
     <p-timeline [@timelineAnimation]="topics.length" [value]="topics" align="alternate" styleClass="customized-timeline">
       <ng-template pTemplate="marker" let-topic>
@@ -32,7 +36,7 @@
           <div *ngIf="!topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
             <button pButton label="Notes" class="p-button-text p-1" (click)="showNotes(topic)"></button>
             <button pButton label="Assignees" class="p-button-text p-1" (click)="showAssignees(topic)"></button>
-            <p-checkbox [(ngModel)]="topic.completed" [binary]="true" inputId="binary"></p-checkbox>
+            <p-checkbox [(ngModel)]="topic.completed" [binary]="true" inputId="binary" (click)="updateProgress()"></p-checkbox>
           </div>
         </p-card>
       </ng-template>
@@ -46,4 +50,11 @@
   <p-dialog [header]="selectedTopic?.title + ' Assignees'" [(visible)]="showPopupAssignees" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
       <p class="m-0" *ngFor="let a of selectedTopic?.assignees">{{a}}</p>
   </p-dialog>
+  <p-dialog [header]="'Add Assignee'" [(visible)]="showAddAssignees" [modal]="true" [style]="{ width: '50vw', height: '15vw', overflow:'visible'}" [draggable]="false" [maximizable]="true">
+    <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2">
+      <input pInputText [(ngModel)]="newAssignee"/>
+      <p-dropdown optionLabel="name" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topics" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
+      <button pButton label="Add" class="p-button-text p-1" (click)="addAssignee()"></button>
+    </p>
+</p-dialog>
 </div>

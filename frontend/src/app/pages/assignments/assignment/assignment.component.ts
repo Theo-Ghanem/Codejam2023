@@ -9,6 +9,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { TimelineModule } from 'primeng/timeline';
@@ -25,7 +26,7 @@ import { AssignmentItem } from 'src/app/model/assignment-item';
     NgFor,
     InputTextModule,
     FormsModule,
-    FileUploadModule, CardModule, TimelineModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule
+    FileUploadModule, CardModule, DropdownModule, TimelineModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule
   ],
   templateUrl: './assignment.component.html',
   styleUrls: ['./assignment.component.css'],
@@ -44,13 +45,14 @@ import { AssignmentItem } from 'src/app/model/assignment-item';
 })
 export class AssignmentComponent implements OnInit{
   topics: AssignmentItem[] = [];
-  grade: number = 50;
-  weight: number = 50;
   completedColor: string = '#34a224';
   incompleteColor: string = '#FF9800';
   showPopup: boolean = false;
-  showProgress: boolean = false;
+  showProgress: boolean = true;
   showPopupAssignees:boolean = false;
+  showAddAssignees:boolean = false;
+  newAssignee:any = "";
+  topicProgress:number = 0;
   selectedTopic: AssignmentItem = new AssignmentItem();
 
   ngOnInit(): void {
@@ -84,7 +86,26 @@ export class AssignmentComponent implements OnInit{
     this.selectedTopic = topic;
   }
 
+  addAssignee() {
+    if(this.newAssignee){
+      this.selectedTopic.assignees = this.selectedTopic.assignees?.concat(this.newAssignee);
+      this.showAddAssignees = false;
+      this.newAssignee="";
+    }
+  }
+
+  updateProgress(){
+    let completedTopic:number = 0;
+    for (let t of this.topics) {
+      if(t.completed){
+        completedTopic++;
+      }
+    }
+    this.topicProgress = Math.round(100 * (completedTopic/this.topics.length));
+  }
+
   onUpload(event: FileUploadHandlerEvent) {
+
   }
 
 }

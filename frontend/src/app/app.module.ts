@@ -9,6 +9,9 @@ import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { AssignmentsComponent } from './pages/assignments/assignments.component';
 import { TestsComponent } from './pages/tests/tests.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MeetingComponent} from "./pages/meetings/meeting/meeting.component";
+import {AssignmentComponent} from "./pages/assignments/assignment/assignment.component";
+import {TestComponent} from "./pages/tests/test/test.component";
 
 @NgModule({
   declarations: [
@@ -21,8 +24,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     SidebarComponent,
     MeetingsComponent,
+    MeetingComponent,
     AssignmentsComponent,
-    TestsComponent
+    AssignmentComponent,
+    TestsComponent,
+    TestComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

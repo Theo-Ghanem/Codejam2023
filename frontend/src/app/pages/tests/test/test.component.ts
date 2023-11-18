@@ -11,6 +11,7 @@ import {DividerModule} from "primeng/divider";
 import {AccordionModule} from "primeng/accordion";
 import {CheckboxModule} from "primeng/checkbox";
 import {DialogModule} from "primeng/dialog";
+import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-test',
@@ -18,7 +19,18 @@ import {DialogModule} from "primeng/dialog";
   imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, FormsModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('timelineAnimation', [
+      transition('* <=> *', [
+        query(':enter', [
+          style({ opacity: 0, height: '0px' }), // New elements start from transparent and 0 height
+          stagger('50ms', animate('300ms ease-out', style({ opacity: 1, height: '*' }))) // Animate to full opacity and variable height
+        ], { optional: true }),
+        query(':leave', animate('300ms ease-in', style({ opacity: 0, height: 0 })), { optional: true }) // If you need to handle removals
+      ])
+    ])
+  ]
 })
 export class TestComponent implements OnInit{
   topics: TopicItem[] = [];
@@ -27,7 +39,7 @@ export class TestComponent implements OnInit{
   completedColor: string = '#34a224';
   incompleteColor: string = '#FF9800';
   showPopup: boolean = false;
-  notes: string | undefined = '';
+  selectedTopic: TopicItem = new TopicItem();
   ngOnInit() {
     this.topics = [
       { title: 'Lecture 1', icon: 'pi pi-book', completed: false},
@@ -52,7 +64,7 @@ export class TestComponent implements OnInit{
 
   showNotes(topic: TopicItem) {
     this.showPopup = true;
-    this.notes = topic.notes;
+    this.selectedTopic = topic;
   }
 
   onUpload(event: FileUploadHandlerEvent) {

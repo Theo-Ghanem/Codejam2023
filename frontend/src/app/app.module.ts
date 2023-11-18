@@ -11,10 +11,11 @@ import { TestsComponent } from './pages/tests/tests.component';
 import {MeetingComponent} from "./pages/meetings/meeting/meeting.component";
 import {AssignmentComponent} from "./pages/assignments/assignment/assignment.component";
 import {TestComponent} from "./pages/tests/test/test.component";
+import { DynamicTitleComponent } from './shared/dynamic-title/dynamic-title.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +27,8 @@ import {TestComponent} from "./pages/tests/test/test.component";
     AssignmentsComponent,
     AssignmentComponent,
     TestsComponent,
-    TestComponent
+    TestComponent,
+    DynamicTitleComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

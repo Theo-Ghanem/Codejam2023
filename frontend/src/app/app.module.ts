@@ -1,34 +1,27 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './pages/login/login.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { MeetingsComponent } from './pages/meetings/meetings.component';
-import { AssignmentsComponent } from './pages/assignments/assignments.component';
-import { TestsComponent } from './pages/tests/tests.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MeetingComponent} from "./pages/meetings/meeting/meeting.component";
-import {AssignmentComponent} from "./pages/assignments/assignment/assignment.component";
-import {TestComponent} from "./pages/tests/test/test.component";
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app.routing';
+import { ComponentsModule } from './components/components.module';
+import { AppComponent } from './app.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    ComponentsModule,
+    RouterModule,
     AppRoutingModule,
-    LoginComponent,
-    SidebarComponent,
-    MeetingsComponent,
-    MeetingComponent,
-    AssignmentsComponent,
-    AssignmentComponent,
-    TestsComponent,
-    TestComponent
+  ],
+  declarations: [
+    AppComponent,
+    AdminLayoutComponent,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

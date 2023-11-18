@@ -3,8 +3,8 @@
 Welcome to our team's repository for the CodeJam hackathon! 🚀
 
 ## Team Members
-- Gabriel Halping
-- She Moosabhoy
+- Gabrielle Halpin
+- Sehr Moosabhoy
 - Mathieu Geoffroy
 - Theo Ghanem
 

@@ -1,1 +1,17 @@
-<p>profile works!</p>
+<div class="flex flex-column">
+  <div class="flex flex-row flex-grow-1 align-content-center justify-content-between">
+    <h2 class="m-0 p-0">Courses</h2>
+    <p-button class="p-0" label="Add Course" (onClick)="addCourse()"></p-button>
+  </div>
+
+  <div class="flex flex-row flex-grow-1">
+    <p-card class="m-4" *ngFor="let course of courses">
+      <ng-template pTemplate="content" class="p-0">
+        <h2 class="m-0 p-0">{{course.name}}</h2>
+        <p>Projected Grade: {{course.finalGrade}}%</p>
+      </ng-template>
+
+    </p-card>
+  </div>
+
+</div>

@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    flex: 0 0 20%;
+    overflow: auto;
+  }
+  
+  .content {
+    flex: 1;
+    overflow: auto;
+    padding-left: 20px; /* Adjust as needed */
+  }
+
+  

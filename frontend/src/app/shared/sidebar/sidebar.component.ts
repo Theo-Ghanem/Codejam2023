@@ -11,6 +11,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 })
 export class SidebarComponent implements OnInit{
   items: MenuItem[]=[];
+  visible: boolean = true; //change to false by default
 
   ngOnInit() {
     this.items = [
@@ -132,6 +133,14 @@ export class SidebarComponent implements OnInit{
             ]
         }
     ];
+  }
+
+  onMouseEnter() {
+    this.visible = true;
+  }
+
+  onMouseLeave() {
+    this.visible = false; //change to false to hide
   }
 
 }

@@ -11,6 +11,7 @@ import { TestsComponent } from './pages/tests/tests.component';
 import {MeetingComponent} from "./pages/meetings/meeting/meeting.component";
 import {AssignmentComponent} from "./pages/assignments/assignment/assignment.component";
 import {TestComponent} from "./pages/tests/test/test.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     LoginComponent,
     SidebarComponent,
@@ -27,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     AssignmentsComponent,
     AssignmentComponent,
     TestsComponent,
-    TestComponent
+    TestComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

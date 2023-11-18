@@ -1,0 +1,86 @@
+.custom-marker {
+  height: 2rem;
+  width: 2rem;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0.5rem;
+
+  &:hover {
+    box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.32) !important;
+    cursor: pointer;
+  }
+}
+
+.custom-icon {
+  margin: 0.5rem;
+  color: #fff;
+}
+
+.x-button {
+  padding-right: 0.5rem;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+
+
+  &:hover {
+    cursor: pointer;
+    background-color: #f8f8f8 !important;
+    text-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.32) !important;
+  }
+}
+
+
+.p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 1.25rem;
+  border: none;
+  background-color: #1d2250;
+  colour: white;
+  font-weight: 700;
+  border-radius: 6px;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+  width: 98%;
+  margin: auto;
+  z-index: 2;
+
+  &:hover {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  &:not(.p-highlight):not(.p-disabled) {
+    color: white;
+  }
+}
+
+.p-accordion .p-accordion-content {
+  position: relative;
+  top: -20px;
+  z-index: 1;
+  padding: 1.25rem;
+  border: 1px solid #f5f5f5;
+  border-radius: 6px;
+  box-shadow: 1px 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.p-button.p-fileupload-choose {
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  border: 2px dashed #c0c0c0;
+  background: #f3f3f3;
+  color: #727272;
+
+  .p-button-label {
+    flex-grow: 0;
+  }
+}
+
+.p-card-body {
+  padding-top: 0.25rem;
+
+  .p-card-content {
+    padding: 0;
+  }
+}

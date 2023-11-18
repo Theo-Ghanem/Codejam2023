@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicTitleComponent } from 'src/app/shared/dynamic-title/dynamic-title.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgIf, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,15 +13,15 @@ import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { TimelineModule } from 'primeng/timeline';
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
-import { AssignmentItem } from 'src/app/model/assignment-item';
+
 import { InplaceModule } from 'primeng/inplace';
+import { AssignmentItem } from '../../model/assignment-topic';
 
 @Component({
   selector: 'app-assignment',
   standalone: true,
   imports: [
     CommonModule,
-    DynamicTitleComponent,
     NgIf,
     NgFor,
     InputTextModule,
@@ -111,6 +110,20 @@ export class AssignmentComponent implements OnInit{
 
   onUpload(event: FileUploadHandlerEvent) {
 
+  }
+
+  title = "Title";
+  showInput = false;
+
+  onSubmit(valueString: any){
+    if(valueString){
+      this.title = valueString.target.value;
+      this.showInput = false;
+    }
+  }
+
+  showTitleInput(){
+    this.showInput = true;
   }
 
 }

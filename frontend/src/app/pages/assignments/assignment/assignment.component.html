@@ -2,46 +2,72 @@
    <!-- Adding title field -->
    <app-dynamic-title>
    </app-dynamic-title>
+   <!-- <div class="card">
+      <p-inplace >
+          <ng-template pTemplate="display">
+              <span>{{title}}</span>
+          </ng-template>
+          <ng-template pTemplate="content">
+              <input type="text" value="{{title}}" [(ngModel)]="title" pInputText />
+          </ng-template>
+      </p-inplace>
+  </div> -->
     <button pButton icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true"></button>
    <!-- Adding other collaborators field -->
 </div>
 <div>
-  <div class="mt-4">
-      <div class="uploadImage" *ngIf="!showProgress">
-        <p>
-          Upload a File
-        </p>
-        <p-fileUpload class="w-full" mode="basic" chooseLabel="Choose" 
-                          [customUpload]="true" accept="image/*" [maxFileSize]="1000000" [fileLimit]="1"
-                          (uploadHandler)="onUpload($event)" [auto]="true"></p-fileUpload>
-      </div>
-      <div class="uploadImage" *ngIf="showProgress">
-        <p>Progress</p>
-        <p-progressBar [value]="topicProgress"></p-progressBar>
-      </div>
-    <p-timeline [@timelineAnimation]="topics.length" [value]="topics" align="alternate" styleClass="customized-timeline">
-      <ng-template pTemplate="marker" let-topic>
-      <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
-          <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
-      </span>
-      </ng-template>
-      <ng-template pTemplate="content" let-topic>
-        <p-card *ngIf="topic.title !== 'Add'">
-          <ng-template pTemplate="header">
-            <div class="flex flex-grow-1 align-content-center justify-content-between p-2 px-3">
-              <h2  class="m-0">{{topic.title}}</h2>
-              <i class="x-button py-2 pi pi-times" (click)="removeTopic(topic)"></i>
-            </div>
+  <p-accordion [multiple]="true" [activeIndex]="[0, 1]">
+    <p-accordionTab header="Assignment Timeline">
+      <div class="mt-4">
+        <div class="uploadImage" *ngIf="!showProgress">
+          <p>
+            Upload a File
+          </p>
+          <p-fileUpload class="w-full" mode="basic" chooseLabel="Choose" 
+                            [customUpload]="true" accept="image/*" [maxFileSize]="1000000" [fileLimit]="1"
+                            (uploadHandler)="onUpload($event)" [auto]="true"></p-fileUpload>
+        </div>
+        <div class="uploadImage" *ngIf="showProgress">
+          <p>Progress</p>
+          <p-progressBar [value]="topicProgress"></p-progressBar>
+        </div>
+        <p-timeline [@timelineAnimation]="topics.length" [value]="topics" align="alternate" styleClass="customized-timeline">
+          <ng-template pTemplate="marker" let-topic>
+          <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
+              <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
+          </span>
           </ng-template>
-          <div *ngIf="!topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
-            <button pButton label="Notes" class="p-button-text p-1" (click)="showNotes(topic)"></button>
-            <button pButton label="Assignees" class="p-button-text p-1" (click)="showAssignees(topic)"></button>
-            <p-checkbox [(ngModel)]="topic.completed" [binary]="true" inputId="binary" (click)="updateProgress()"></p-checkbox>
-          </div>
-        </p-card>
-      </ng-template>
-    </p-timeline>
-  </div>
+          <ng-template pTemplate="content" let-topic>
+            <p-card *ngIf="topic.title !== 'Add'">
+              <ng-template pTemplate="header">
+                <div class="flex flex-grow-1 align-content-center justify-content-between p-2 px-3">
+                  <h2  class="m-0">{{topic.title}}</h2>
+                  <i class="x-button py-2 pi pi-times" (click)="removeTopic(topic)"></i>
+                </div>
+              </ng-template>
+              <div *ngIf="!topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
+                <button pButton label="Notes" class="p-button-text p-1" (click)="showNotes(topic)"></button>
+                <button pButton label="Assignees" class="p-button-text p-1" (click)="showAssignees(topic)"></button>
+                <p-checkbox [(ngModel)]="topic.completed" [binary]="true" inputId="binary" (click)="updateProgress()"></p-checkbox>
+              </div>
+            </p-card>
+          </ng-template>
+        </p-timeline>
+      </div>
+    </p-accordionTab>
+      <p-accordionTab header="Grade">
+        <div class="flex flex-grow-1 align-content-center justify-content-between mt-4">
+          <span class="p-float-label flex flex-grow-1 m-4">
+            <input class=" w-full" pInputText id="weight" [(ngModel)]="weight"/>
+            <label htmlFor="weight">Weight</label>
+          </span>
+          <span class="p-float-label flex flex-grow-1 m-4">
+            <input class=" w-full" pInputText id="grade" [(ngModel)]="grade"/>
+            <label htmlFor="grade">Grade</label>
+          </span>
+        </div>
+      </p-accordionTab>
+  </p-accordion>
   <p-dialog [header]="selectedTopic?.title + ' Notes'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
     <p class="m-0">
       <textarea class="w-full" rows="10" [(ngModel)]="selectedTopic.notes"></textarea>
@@ -56,5 +82,5 @@
       <p-dropdown optionLabel="name" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topics" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
       <button pButton label="Add" class="p-button-text p-1" (click)="addAssignee()"></button>
     </p>
-</p-dialog>
+  </p-dialog>
 </div>

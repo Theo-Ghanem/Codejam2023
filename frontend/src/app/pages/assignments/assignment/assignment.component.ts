@@ -15,6 +15,7 @@ import { DividerModule } from 'primeng/divider';
 import { TimelineModule } from 'primeng/timeline';
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
 import { AssignmentItem } from 'src/app/model/assignment-item';
+import { InplaceModule } from 'primeng/inplace';
 
 @Component({
   selector: 'app-assignment',
@@ -26,6 +27,7 @@ import { AssignmentItem } from 'src/app/model/assignment-item';
     NgFor,
     InputTextModule,
     FormsModule,
+    InplaceModule,
     FileUploadModule, CardModule, DropdownModule, TimelineModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule
   ],
   templateUrl: './assignment.component.html',
@@ -44,10 +46,13 @@ import { AssignmentItem } from 'src/app/model/assignment-item';
   ]
 })
 export class AssignmentComponent implements OnInit{
+  // title:string = "Title";
   topics: AssignmentItem[] = [];
   completedColor: string = '#34a224';
   incompleteColor: string = '#FF9800';
   showPopup: boolean = false;
+  grade:number = 50;
+  weight:number = 50;
   showProgress: boolean = true;
   showPopupAssignees:boolean = false;
   showAddAssignees:boolean = false;

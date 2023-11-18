@@ -1,13 +1,13 @@
 <div>
 
     <ng-template [ngIf]="!showInput">
-        <p (dblclick)="showTitleInput()">
+        <p (dblclick)="showTitleInput()" style="padding-left:10mm">
             {{title}}
         </p>
     </ng-template>
     <ng-template [ngIf]="showInput">
         <form #f="ngForm" (keyup.enter)="onSubmit($event)">
-            <input type="text" pInputText [(ngModel)]="title">
+            <input type="text" pInputText [(ngModel)]="title" style="padding: 5%; font-size:xx-large; margin:5%; ">
         </form>
     </ng-template>
 

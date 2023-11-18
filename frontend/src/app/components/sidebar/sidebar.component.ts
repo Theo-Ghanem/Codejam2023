@@ -52,9 +52,19 @@ export class SidebarComponent implements OnInit {
           // Add more subroutes as needed
       ] 
     },
+    { 
+      path: '/assignments', 
+      title: 'Assignments',  
+      icon:'library_books', 
+      class: '', 
+      subRoutes: [
+          { path: '/assignments/1', title: 'Assignment 1', icon: 'content_paste', class: '' },
+          { path: '/assignments/2', title: 'Assignment 2', icon: 'content_paste', class: '' },
+          // Add more subroutes as needed
+      ] 
+    },
     { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
-    { path: '/table-list', title: 'Assignment Planning',  icon:'content_paste', class: '' },
+    { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' }
     // { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
     // { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
     // { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },

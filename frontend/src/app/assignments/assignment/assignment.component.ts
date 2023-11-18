@@ -61,10 +61,10 @@ export class AssignmentComponent implements OnInit{
 
   ngOnInit(): void {
     this.topics = [
-      { title: 'Topic 1', icon: 'pi pi-book', completed: false, assignees:["jack"]},
-      { title: 'Topic 2', icon: 'pi pi-book', completed: false, assignees:["bob", "charles"]},
-      { title: 'Topic 3', icon: 'pi pi-book', completed: false},
-      { title: 'Topic 4', icon: 'pi pi-book', completed: false},
+      { title: 'Topic 1', icon: 'pi pi-book', completed: false, assignees:[]},
+      { title: 'Topic 2', icon: 'pi pi-book', completed: false, assignees:[]},
+      { title: 'Topic 3', icon: 'pi pi-book', completed: false, assignees:[]},
+      { title: 'Topic 4', icon: 'pi pi-book', completed: false, assignees:[]},
     ];
   }
 
@@ -91,18 +91,23 @@ export class AssignmentComponent implements OnInit{
   }
 
   addAssignee() {
+    console.log("entering :/");
     if(this.newAssignee){
-      this.selectedTopic.assignees = this.selectedTopic.assignees?.concat(this.newAssignee);
+      this.selectedTopic.assignees?.push(this.newAssignee);
       this.showAddAssignees = false;
       this.newAssignee="";
+      this.selectedTopic= new AssignmentItem();
     }
   }
 
   removeAssignee() {
     if(this.newAssignee){
       const index = this.selectedTopic.assignees.indexOf(this.newAssignee, 0);
+      console.log(index)
+      console.log(this.selectedTopic.assignees);
       if (index > -1) {
-        this.selectedTopic.assignees = this.selectedTopic.assignees.splice(index, 1);
+        this.selectedTopic.assignees = this.selectedTopic.assignees.splice((index+1), 1);
+        console.log(this.selectedTopic.assignees);
         this.newAssignee="";
      }
     }

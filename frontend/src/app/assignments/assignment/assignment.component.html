@@ -49,41 +49,41 @@
                </div>
              </p-card>
            </ng-template>
-         </p-timeline>
-       </div>
+          </p-timeline>
+        </div>
      </p-accordionTab>
-       <p-accordionTab header="Grade">
-         <div class="flex flex-grow-1 align-content-center justify-content-between mt-4">
-           <span class="p-float-label flex flex-grow-1 m-4">
-             <input class=" w-full" pInputText id="weight" [(ngModel)]="weight"/>
-             <label htmlFor="weight">Weight</label>
-           </span>
-           <span class="p-float-label flex flex-grow-1 m-4">
-             <input class=" w-full" pInputText id="grade" [(ngModel)]="grade"/>
-             <label htmlFor="grade">Grade</label>
-           </span>
-           <span class="flex m-4">
-            <button pButton label="Save" (click)="saveGrade()" class="p-button-text p-1" style="background-color: aliceblue; border-radius:10%; width:100px"></button>
-           </span>
-         </div>
-       </p-accordionTab>
+      <p-accordionTab header="Grade">
+        <div class="flex flex-grow-1 align-content-center justify-content-between mt-4">
+          <span class="p-float-label flex flex-grow-1 m-4">
+            <input class=" w-full" pInputText id="weight" [(ngModel)]="weight"/>
+            <label htmlFor="weight">Weight</label>
+          </span>
+          <span class="p-float-label flex flex-grow-1 m-4">
+            <input class=" w-full" pInputText id="grade" [(ngModel)]="grade"/>
+            <label htmlFor="grade">Grade</label>
+          </span>
+          <span class="flex m-4">
+          <button pButton label="Save" (click)="saveGrade()" class="p-button-text p-1" style="background-color: aliceblue; border-radius:10%; width:100px"></button>
+          </span>
+        </div>
+      </p-accordionTab>
    </p-accordion>
    <p-dialog [header]="selectedTopic?.title + ' Notes'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
      <p class="m-0">
        <textarea class="w-full" rows="10" [(ngModel)]="selectedTopic.notes"></textarea>
      </p>
    </p-dialog>
-   <p-dialog [header]="selectedTopic?.title + ' Assignees'" [(visible)]="showPopupAssignees" [modal]="true" [style]="{ width: '50vw'}" [draggable]="false" [maximizable]="true">
-      <span style="justify-content: center;"> 
-        <p class="m-0" *ngFor="let a of selectedTopic?.assignees">{{a}}</p>
-        <p-dropdown placeholder="Select an Assignee" [(ngModel)]="newAssignee" [options]="selectedTopic?.assignees" [style]="{overflow: 'visible'}"></p-dropdown>
+   <p-dialog [header]="selectedTopic?.title + ' Assignees'" [(visible)]="showPopupAssignees" [modal]="true" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="true">
+      <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2"> 
+        <li class="m-0" *ngFor="let a of selectedTopic?.assignees">{{a}}</li>
+        <p-dropdown appendTo="body" placeholder="Select an Assignee" [(ngModel)]="newAssignee" [options]="selectedTopic?.assignees"></p-dropdown>
         <button pButton label="Remove" class="p-button-text p-1" (click)="removeAssignee()"></button>
-      </span>
+      </p>
    </p-dialog>
    <p-dialog [header]="'Add Assignee'" [(visible)]="showAddAssignees" [modal]="true" [style]="{ width: '50vw', height: '15vw', overflow:'visible'}" [draggable]="false" [maximizable]="true">
      <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2">
        <input pInputText [(ngModel)]="newAssignee"/>
-       <p-dropdown placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topics" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
+       <p-dropdown appendTo="body" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topics" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
        <button pButton label="Add" class="p-button-text p-1" (click)="addAssignee()"></button>
      </p>
    </p-dialog>

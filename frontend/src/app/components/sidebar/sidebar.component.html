@@ -1,7 +1,7 @@
 <div class="logo">
     <a href="https://devpost.com/software/productivity-boost" class="simple-text">
         <div class="logo-img">
-            <img src="/assets/img/angular2-logo-red.png"/>
+            <img src="/assets/img/logo-clean.png"/>
         </div>
         Productivity!
     </a>
@@ -66,7 +66,23 @@
 <!-- Start of large view -->
   </div> 
     <ul class="nav">
-        
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#testsSubmenu" role="button" aria-expanded="false" aria-controls="testsSubmenu">
+                <i class="material-icons">library_books</i>
+                <p>Tests</p>
+            </a>
+            <div class="collapse" id="testsSubmenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/tests/1">Test 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  routerLink="/tests/2">Test 2</a>
+                    </li>
+                    <!-- Add more subroutes as needed -->
+                </ul>
+            </div>
+        </li>
         <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
             <a class="nav-link" [routerLink]="[menuItem.path]">
                 <i class="material-icons">{{menuItem.icon}}</i>

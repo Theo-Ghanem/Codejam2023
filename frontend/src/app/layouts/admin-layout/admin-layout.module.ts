@@ -19,6 +19,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import { TestsComponent } from 'app/tests/tests.component';
 import { TestComponent } from 'app/tests/test/test.component';
+import { AssignmentComponent } from 'app/assignments/assignment/assignment.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { TestComponent } from 'app/tests/test/test.component';
     MatSelectModule,
     MatTooltipModule,
     TestsComponent,
-    TestComponent
+    TestComponent,
+    AssignmentComponent
   ],
   declarations: [
     DashboardComponent,

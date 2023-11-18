@@ -28,10 +28,10 @@
             <div class="collapse" id="testsSubmenu">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/tests/1">Test 1</a>
+                        <!-- <a class="nav-link" routerLink="/tests/1">Test 1</a> -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/tests/2">Test 2</a>
+                        <!-- <a class="nav-link" routerLink="/tests/2">Test 2</a> -->
                     </li>
                     <!-- Add more subroutes as needed -->
                 </ul>
@@ -65,29 +65,25 @@
 <!-- End of mobile menu -->
 <!-- Start of large view -->
   </div> 
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#testsSubmenu" role="button" aria-expanded="false" aria-controls="testsSubmenu">
-                <i class="material-icons">library_books</i>
-                <p>Tests</p>
+  <ul class="nav">
+    <li *ngFor="let route of ROUTES" class="nav-item" [ngClass]="route.class" [class.active]="activeRoute === route.path">
+        <a *ngIf="!route.subRoutes; else subRoutesTemplate" class="nav-link" [routerLink]="[route.path]" (click)="setActiveRoute(route.path)">
+            <i class="material-icons">{{route.icon}}</i>
+            <p>{{route.title}}</p>
+        </a>
+        <ng-template #subRoutesTemplate>
+            <a class="nav-link" data-toggle="collapse" href="#{{route.title}}Submenu" role="button" aria-expanded="false" aria-controls="{{route.title}}Submenu">
+                <i class="material-icons">{{route.icon}}</i>
+                <p>{{route.title}}</p>
             </a>
-            <div class="collapse" id="testsSubmenu">
+            <div class="collapse" id="{{route.title}}Submenu">
                 <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/tests/1">Test 1</a>
+                    <li *ngFor="let subRoute of route.subRoutes" class="nav-item">
+                        <a class="nav-link" [routerLink]="[subRoute.path]">{{subRoute.title}}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"  routerLink="/tests/2">Test 2</a>
-                    </li>
-                    <!-- Add more subroutes as needed -->
                 </ul>
             </div>
-        </li>
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p>{{menuItem.title}}</p>
-            </a>
-        </li>
-    </ul>
+        </ng-template>
+    </li>
+</ul>
 </div>

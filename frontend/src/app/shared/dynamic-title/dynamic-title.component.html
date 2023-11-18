@@ -1,0 +1,12 @@
+<div>
+    <ng-form action="">
+        <p (dblclick)="changeTitleInput()" id="titleInput">
+            {{title}}
+        </p>
+        <ng-template [ngIf]="showInput">
+            <input type="text" pInputText [(ngModel)]="title">
+        </ng-template>
+        
+    </ng-form>
+</div>
+

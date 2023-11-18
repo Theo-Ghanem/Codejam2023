@@ -1,31 +1,60 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FileUploadEvent, FileUploadModule} from "primeng/fileupload";
+import { ButtonModule } from 'primeng/button';
+import {FileUploadHandlerEvent, FileUploadModule} from "primeng/fileupload";
 import {CardModule} from "primeng/card";
 import {TimelineModule} from "primeng/timeline";
-import {EventItem} from '../../../model/event-item';
+import {TopicItem} from '../../../model/topic-item';
+import {FormsModule} from "@angular/forms";
+import {InputTextModule} from "primeng/inputtext";
+import {DividerModule} from "primeng/divider";
+import {AccordionModule} from "primeng/accordion";
+import {CheckboxModule} from "primeng/checkbox";
+import {DialogModule} from "primeng/dialog";
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule],
+  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, FormsModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
   templateUrl: './test.component.html',
-  styleUrls: ['./test.component.css']
+  styleUrls: ['./test.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TestComponent implements OnInit{
-  events: EventItem[] = [];
+  topics: TopicItem[] = [];
+  grade: number = 50;
+  weight: number = 50;
+  completedColor: string = '#34a224';
+  incompleteColor: string = '#FF9800';
+  showPopup: boolean = false;
+  notes: string | undefined = '';
   ngOnInit() {
-    this.events = [
-      { status: 'Ordered', date: '15/10/2020 10:30', icon: 'pi pi-shopping-cart', color: '#9C27B0', image: 'game-controller.jpg' },
-      { status: 'Processing', date: '15/10/2020 14:00', icon: 'pi pi-cog', color: '#673AB7' },
-      { status: 'Shipped', date: '15/10/2020 16:15', icon: 'pi pi-shopping-cart', color: '#FF9800' },
-      { status: 'Delivered', date: '16/10/2020 10:00', icon: 'pi pi-check', color: '#607D8B' }
+    this.topics = [
+      { title: 'Lecture 1', icon: 'pi pi-book', completed: false},
+      { title: 'Lecture 2', icon: 'pi pi-book', completed: false},
+      { title: 'Lecture 3', icon: 'pi pi-book', completed: false},
+      { title: 'Lecture 4', icon: 'pi pi-book', completed: false},
+      { title: 'Add', icon: 'pi pi-plus', completed: true}
     ];
   }
 
-  onUpload(event: FileUploadEvent) {
-
+  addTopic(topic: TopicItem) {
+    if (topic.title == 'Add') {
+      this.topics.splice(this.topics.length - 1, 0, { title: 'Lecture ' + this.topics.length, icon: 'pi pi-book', completed: false});
+    }
   }
 
+  removeTopic(topic: TopicItem) {
+    if (topic.title != 'Add') {
+      this.topics.splice(this.topics.indexOf(topic), 1);
+    }
+  }
 
+  showNotes(topic: TopicItem) {
+    this.showPopup = true;
+    this.notes = topic.notes;
+  }
+
+  onUpload(event: FileUploadHandlerEvent) {
+  }
 }

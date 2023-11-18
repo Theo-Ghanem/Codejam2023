@@ -1,0 +1,11 @@
+.sidebar {
+
+}
+
+.content {
+  padding: 2rem;
+  background: #fafafa;
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+}

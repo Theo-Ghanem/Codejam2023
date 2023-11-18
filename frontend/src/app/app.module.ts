@@ -11,6 +11,7 @@ import { TestsComponent } from './pages/tests/tests.component';
 import {MeetingComponent} from "./pages/meetings/meeting/meeting.component";
 import {AssignmentComponent} from "./pages/assignments/assignment/assignment.component";
 import {TestComponent} from "./pages/tests/test/test.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {TestComponent} from "./pages/tests/test/test.component";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     LoginComponent,
     SidebarComponent,
@@ -26,7 +28,7 @@ import {TestComponent} from "./pages/tests/test/test.component";
     AssignmentsComponent,
     AssignmentComponent,
     TestsComponent,
-    TestComponent
+    TestComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

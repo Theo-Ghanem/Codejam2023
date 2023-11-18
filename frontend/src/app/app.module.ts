@@ -8,6 +8,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { AssignmentsComponent } from './pages/assignments/assignments.component';
 import { TestsComponent } from './pages/tests/tests.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { TestsComponent } from './pages/tests/tests.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     LoginComponent,
     SidebarComponent,

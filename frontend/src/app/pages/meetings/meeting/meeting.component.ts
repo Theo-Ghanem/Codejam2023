@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,5 +9,19 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./meeting.component.css']
 })
 export class MeetingComponent {
+  date!: String;
+  happened!: boolean;
+
+
+  // ngOnInit(){
+
+  // }
+
+  // openNew() {
+  //   this.date = "today";
+  //   this.happened = false;
+  // }
+
+
 
 }

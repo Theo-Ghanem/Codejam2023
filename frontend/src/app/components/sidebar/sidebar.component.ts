@@ -6,10 +6,22 @@ declare interface RouteInfo {
     title: string;
     icon: string;
     class: string;
+    subRoutes?: RouteInfo[]; 
 }
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/tests', title: 'Tests',  icon:'library_books', class: '' },
+    // { path: '/tests', title: 'Tests',  icon:'library_books', class: '' },
+    { 
+      path: '/tests', 
+      title: 'Tests',  
+      icon:'library_books', 
+      class: '', 
+      subRoutes: [ // Add this block
+          { path: '/tests/1', title: 'Test 1', icon: 'content_paste', class: '' },
+          { path: '/tests/2', title: 'Test 2', icon: 'content_paste', class: '' },
+          // Add more subroutes as needed
+      ] 
+  },
     { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
     { path: '/table-list', title: 'Meeting Booking',  icon:'content_paste', class: '' },
     { path: '/table-list', title: 'Assignment Planning',  icon:'content_paste', class: '' },

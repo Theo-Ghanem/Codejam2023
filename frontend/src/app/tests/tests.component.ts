@@ -61,6 +61,11 @@ export class TestsComponent implements OnInit {
     this.router.navigate(["tests", this.selectedTest.id]);
   }
   ngOnInit() {
+    // this.tests = [
+    //   { id: 1, name: 'Test 1', type: 'tests', ...this.defaultTest },
+    //   { id: 2, name: 'Test 2', type: 'tests', ...this.defaultTest },
+    //   
+    // ];
         this.apiService.getItems(null).then(data => this.tests = data.filter(t => t.type === 'tests'));
    }
 

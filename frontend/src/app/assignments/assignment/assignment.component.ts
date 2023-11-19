@@ -16,6 +16,9 @@ import {animate, query, stagger, style, transition, trigger} from "@angular/anim
 
 import { InplaceModule } from 'primeng/inplace';
 import { AssignmentItem } from '../../model/assignment-topic';
+import { MenuItem } from 'primeng/api';
+import { MenuModule } from 'primeng/menu';
+
 
 @Component({
   selector: 'app-assignment',
@@ -27,6 +30,7 @@ import { AssignmentItem } from '../../model/assignment-topic';
     InputTextModule,
     FormsModule,
     InplaceModule,
+    MenuModule,
     FileUploadModule, CardModule, DropdownModule, TimelineModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule
   ],
   templateUrl: './assignment.component.html',
@@ -45,19 +49,38 @@ import { AssignmentItem } from '../../model/assignment-topic';
   ]
 })
 export class AssignmentComponent implements OnInit{
-  // title:string = "Title";
   topics: AssignmentItem[] = [];
+  topicsNoAdd: AssignmentItem[] = [];
   completedColor: string = '#34a224';
   incompleteColor: string = '#FF9800';
   showPopup: boolean = false;
   grade:number = 0;
   weight:number = 0;
-  showProgress: boolean = true;
+  showProgress: boolean = false;
   showPopupAssignees:boolean = false;
   showAddAssignees:boolean = false;
   newAssignee:any = "";
   topicProgress:number = 0;
+  editModeOn:boolean = false;
   selectedTopic: AssignmentItem = new AssignmentItem();
+  title:string = "Title";
+  showInput:boolean = false;
+  editMenu: MenuItem[] = [
+    {
+        label: 'Edit',
+        icon: 'pi pi-pencil',
+        command: () => {
+            this.editModeOn = true;
+        }
+    },
+    {
+        label: 'Delete',
+        icon: 'pi pi-trash',
+        command: () => {
+            this.removeTopic(this.selectedTopic);
+        }
+    }
+];
 
   ngOnInit(): void {
     this.topics = [
@@ -65,18 +88,29 @@ export class AssignmentComponent implements OnInit{
       { title: 'Topic 2', icon: 'pi pi-book', completed: false, assignees:[]},
       { title: 'Topic 3', icon: 'pi pi-book', completed: false, assignees:[]},
       { title: 'Topic 4', icon: 'pi pi-book', completed: false, assignees:[]},
+      { title: 'Add' , icon: 'pi pi-plus',  completed: true}
     ];
+    this.topicsNoAdd = this.topics.filter(item => item.title!=='Add');
   }
 
   addTopic(topic: AssignmentItem) {
     if (topic.title == 'Add') {
-      this.topics.splice(this.topics.length - 1, 0, { title: 'Lecture ' + this.topics.length, icon: 'pi pi-book', completed: false});
+      this.topics.splice(this.topics.length - 1, 0, { title: 'Topic ' + this.topics.length, icon: 'pi pi-book', completed: false});
+      this.topicsNoAdd.splice(this.topics.length - 1, 0, { title: 'Topic ' + this.topics.length, icon: 'pi pi-book', completed: false});
+      this.updateProgress();
     }
+  }
+
+  openEditMenu(event: any, menu: any) {
+    event.stopPropagation();
+    menu.toggle(event);
   }
 
   removeTopic(topic: AssignmentItem) {
     if (topic.title != 'Add') {
       this.topics.splice(this.topics.indexOf(topic), 1);
+      this.topicsNoAdd.splice(this.topicsNoAdd.indexOf(topic), 1);
+      this.updateProgress();
     }
   }
 
@@ -91,7 +125,6 @@ export class AssignmentComponent implements OnInit{
   }
 
   addAssignee() {
-    console.log("entering :/");
     if(this.newAssignee){
       this.selectedTopic.assignees?.push(this.newAssignee);
       this.showAddAssignees = false;
@@ -103,11 +136,8 @@ export class AssignmentComponent implements OnInit{
   removeAssignee() {
     if(this.newAssignee){
       const index = this.selectedTopic.assignees.indexOf(this.newAssignee, 0);
-      console.log(index)
-      console.log(this.selectedTopic.assignees);
       if (index > -1) {
         this.selectedTopic.assignees = this.selectedTopic.assignees.splice((index+1), 1);
-        console.log(this.selectedTopic.assignees);
         this.newAssignee="";
      }
     }
@@ -116,19 +146,16 @@ export class AssignmentComponent implements OnInit{
   updateProgress(){
     let completedTopic:number = 0;
     for (let t of this.topics) {
-      if(t.completed){
+      if(t.completed && t.title !== 'Add'){
         completedTopic++;
       }
     }
-    this.topicProgress = Math.round(100 * (completedTopic/this.topics.length));
+    this.topicProgress = Math.round(100 * (completedTopic/this.topicsNoAdd.length));
   }
 
   onUpload(event: FileUploadHandlerEvent) {
 
   }
-
-  title = "Title";
-  showInput = false;
 
   onSubmit(valueString: any){
     if(valueString){

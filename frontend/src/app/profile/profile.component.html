@@ -27,9 +27,8 @@
                         <ng-template pTemplate="content" class="p-0">
                             <div class="flex flex-row justify-content-between">
                                 <h2 class="m-0 p-0">{{course.name}}</h2>
-                                <p-menu class="relative top-0" #menu [model]="editMenu" [popup]="true"></p-menu>
-                                <i class="x-button p-2 pi pi-ellipsis-h" (click)="openEditMenu($event, menu)"></i>
-
+                                <p-menu class="relative top-0" #menu [model]="editMenu" appendTo="body" [popup]="true"></p-menu>
+                                <i class="x-button p-2 pi pi-ellipsis-h" (click)="this.selectedCourse = course ;openEditMenu($event, menu)"></i>
                             </div>
                             <p>Projected Grade: {{course.finalGrade}}%</p>
                         </ng-template>
@@ -44,4 +43,10 @@
             <textarea class="w-full" rows="10" [(ngModel)]="selectedCourse.name"></textarea>
         </p>
     </p-dialog>
+    <p-dialog [header]="'Edit ' + selectedCourse?.name" [(visible)]="editModeOn" [modal]="true" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="false" [closable]="false">
+        <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2"> 
+          <input pInputText [(ngModel)]="selectedCourse.name"/>
+          <button pButton label="Close" class="p-button-text p-1" (click)="editModeOn = false"></button>
+        </p>
+     </p-dialog>
 </div>

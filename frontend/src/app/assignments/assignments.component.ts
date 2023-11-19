@@ -10,10 +10,6 @@ import { MenuItem } from 'primeng/api';
 import { AssignmentItem } from 'app/model/assignment-topic';
 import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
-import {parse} from "jasmine-spec-reporter/built/configuration-parser";
-import {json} from "express";
-import {of} from "rxjs";
-import arrayContaining = jasmine.arrayContaining;
 
 
 @Component({

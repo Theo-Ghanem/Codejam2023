@@ -22,9 +22,9 @@
      <p-accordionTab header="Assignment Timeline">
        <div class="mt-4">
          <div class="uploadImage" *ngIf="!showProgress">
-           <p-fileUpload class="w-full" mode="basic" chooseLabel="Upload a File" 
-                             [customUpload]="true" accept="image/*" [maxFileSize]="1000000" [fileLimit]="1"
-                             (uploadHandler)="onUpload($event)" [auto]="true"></p-fileUpload>
+           <p-fileUpload class="w-full" mode="basic" allow-types="*.pdf" name = "demo[]" chooseLabel="Upload a File" url="http://127.0.0.1:5000/assignment"
+                              [maxFileSize]="100000000" [fileLimit]="1"
+                             (onSend)="onUpload($event)" [auto]="true"></p-fileUpload>
          </div>
          <div class="uploadImage" *ngIf="showProgress">
            <p>Progress</p>

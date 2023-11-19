@@ -84,3 +84,8 @@
     padding: 0;
   }
 }
+
+.p-progress-spinner {
+    width: 4rem;
+    height: 4rem;
+}

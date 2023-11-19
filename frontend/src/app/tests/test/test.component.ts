@@ -16,11 +16,12 @@ import { GradedItem } from 'app/model/graded-item';
 import { ApiService } from 'app/services/api.service';
 import { MenuItem } from 'primeng/api/menuitem';
 import { MenuModule } from 'primeng/menu';
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, NgFor, FormsModule, MenuModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
+  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, NgFor, FormsModule, MenuModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule, ProgressSpinnerModule],
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css'],
   encapsulation: ViewEncapsulation.None,
@@ -127,6 +128,10 @@ export class TestComponent implements OnInit{
   openEditMenu(event: any, menu: any) {
     event.stopPropagation();
     menu.toggle(event);
+  }
+
+  saveGrade() {
+
   }
   
 }

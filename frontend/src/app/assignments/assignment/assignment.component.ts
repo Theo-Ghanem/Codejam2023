@@ -19,21 +19,22 @@ import { AssignmentItem } from '../../model/assignment-topic';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { GradedItem } from 'app/model/graded-item';
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 
 @Component({
   selector: 'app-assignment',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgIf,
-    NgFor,
-    InputTextModule,
-    FormsModule,
-    InplaceModule,
-    MenuModule,
-    FileUploadModule, CardModule, DropdownModule, TimelineModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule
-  ],
+    imports: [
+        CommonModule,
+        NgIf,
+        NgFor,
+        InputTextModule,
+        FormsModule,
+        InplaceModule,
+        MenuModule,
+        FileUploadModule, CardModule, DropdownModule, TimelineModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule, ProgressSpinnerModule
+    ],
   templateUrl: './assignment.component.html',
   styleUrls: ['./assignment.component.css'],
   encapsulation: ViewEncapsulation.None,
@@ -67,6 +68,7 @@ export class AssignmentComponent implements OnInit{
   title:string = "Title";
   showInput:boolean = false;
   isLoading = false;
+  gradedItem: GradedItem = new GradedItem();
   editMenu: MenuItem[] = [
     {
         label: 'Edit',
@@ -85,6 +87,17 @@ export class AssignmentComponent implements OnInit{
 ];
 
   ngOnInit(): void {
+    this.gradedItem = {
+        id: 0,
+        name: 'Assignment 1',
+        type: 'assignments',
+        dueDate: new Date(2021, 3, 1),
+        weight: 10,
+        grade: 100,
+        file: '',
+        assignees: [],
+        timelineItems: []
+    }
     this.topics = [
       { title: 'Topic 1', icon: 'pi pi-book', completed: false, assignees:[]},
       { title: 'Topic 2', icon: 'pi pi-book', completed: false, assignees:[]},
@@ -155,17 +168,14 @@ export class AssignmentComponent implements OnInit{
     this.topicProgress = Math.round(100 * (completedTopic/this.topicsNoAdd.length));
   }
 
-  onUpload(event: FileSendEvent, gradedItem: GradedItem) {
-    // console.log("i am here" + gradedItem.title);
-    this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 3000); // 3000ms delay
+  onUpload(event: FileSendEvent) {
+    this.showProgress = true
     const item = event.formData.get('demo[]')
     if (item instanceof File){
-      gradedItem.file = item.name;
+      this.gradedItem.file = item.name;
     }
-    console.log(gradedItem.file);
+    console.log("i am here" + this.gradedItem.name);
+
   }
 
   onSubmit(valueString: any){
@@ -177,6 +187,7 @@ export class AssignmentComponent implements OnInit{
 
   showTitleInput(){
     this.showInput = true;
+    this
   }
 
   saveGrade(){

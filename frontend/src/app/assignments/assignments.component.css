@@ -29,3 +29,8 @@
     border-radius: 6px;
     box-shadow: 1px 2px 5px 0 rgba(0, 0, 0, 0.2);
 }
+
+.p-progress-spinner {
+    width: 4rem;
+    height: 4rem;
+}

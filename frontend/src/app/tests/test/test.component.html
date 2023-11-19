@@ -20,9 +20,12 @@
               <p-fileUpload *ngIf="!topic.file" class="w-full" mode="basic" chooseLabel="Choose" name="demo[]"
                             allow-types="*.pdf" [maxFileSize]="1000000000" url="http://127.0.0.1:5000/topic" [fileLimit]="1"
                             (onSend)="onUpload($event, topic)" [auto]="true"></p-fileUpload>
-              <div *ngIf="topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
+              <div *ngIf="topic.file && topic.notes" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
                 <button pButton label="Notes" class="p-button-text p-1" (click)="showNotes(topic)"></button>
                 <p-checkbox [(ngModel)]="topic.completed" [binary]="true" inputId="binary"></p-checkbox>
+              </div>
+              <div class="flex flex-grow-1 justify-content-center" *ngIf="topic.file && !topic.notes">
+                <p-progressSpinner></p-progressSpinner>
               </div>
             </p-card>
           </ng-template>
@@ -40,6 +43,7 @@
           <input class=" w-full" pInputText id="grade" [(ngModel)]="grade"/>
           <label htmlFor="grade">Grade</label>
         </span>
+        <button pButton label="Save" (click)="saveGrade()" class="p-button-text p-1 m-4" style="background-color: aliceblue; border-radius:10%; width:100px"></button>
       </div>
     </p-accordionTab>
   </p-accordion>

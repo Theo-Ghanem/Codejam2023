@@ -221,9 +221,3 @@ def generate_notes(filename):
         questions = [line.split('. ', 1)[1] for line in lines if line.strip().startswith(str(lines.index(line) + 1) + '. ')]
    
     g_questions[name] = questions
-
-    
-
-            
-         
-      

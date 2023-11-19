@@ -43,7 +43,7 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
     ButtonModule,
     CheckboxModule,
     DialogModule,
-    CalendarModule
+    CalendarModule, ProgressSpinnerModule
   ],
   templateUrl: './assignment.component.html',
   styleUrls: ['./assignment.component.css'],

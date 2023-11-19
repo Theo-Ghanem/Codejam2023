@@ -17,6 +17,7 @@ import { ApiService } from 'app/services/api.service';
 import { MenuItem } from 'primeng/api/menuitem';
 import { MenuModule } from 'primeng/menu';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import { ActivatedRoute, Route } from '@angular/router';
 
 @Component({
   selector: 'app-test',
@@ -46,6 +47,7 @@ export class TestComponent implements OnInit{
   showPopup: boolean = false;
   selectedTopic: TopicItem = new TopicItem();
   editModeOn:boolean = false;
+  gradedItem: GradedItem = new GradedItem();
   editMenu: MenuItem[] = [
     {
         label: 'Edit',
@@ -69,7 +71,7 @@ export class TestComponent implements OnInit{
   // grade = this.grades[0];
   // weight = this.grades[1];
   
-  constructor(private apiService: ApiService) {}
+  constructor(private route: ActivatedRoute, private apiService: ApiService) {}
 
   ngOnInit() {
     this.apiService.getGrade().subscribe((data: GradedItem) => {
@@ -92,6 +94,11 @@ export class TestComponent implements OnInit{
       { title: 'Lecture 4', icon: 'pi pi-book', completed: false},
       { title: 'Add', icon: 'pi pi-plus', completed: true}
     ];
+    this.route.params.subscribe(params => {
+      this.apiService.getItems(null).then((data: any) => {
+       this.gradedItem = data.find((item: any) => item.id == params.id);
+   });
+ });
   }
 
   addTopic(topic: TopicItem) {

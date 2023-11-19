@@ -1,5 +1,6 @@
 import os
 import time
+from gradeditem import GradedItem
 from flask import Flask, jsonify
 from flask import request
 from flask_cors import CORS, cross_origin
@@ -10,6 +11,7 @@ from openai import OpenAI
 client = OpenAI()
 g_questions = {}
 assignments = {}
+graded_items = {}
 
 
 app = Flask(__name__)
@@ -30,6 +32,33 @@ client = OpenAI(
   organization='org-UxJY236GcEIyGZsNEygaJmo0',
 )
 client.models.list()
+
+@app.route("/grades", methods = ['GET', 'POST', 'DELETE', 'PUT'])
+@cross_origin()
+def gradedItems():
+    if request.method == 'GET':
+        return jsonify({'ok': 'True', 'items': graded_items})
+    if request.method == 'POST':
+        print("json is" + request.get_json())
+        new_item = GradedItem(request.id, request.name, request.type, request.dueDate, request.weight, request.grade, request.file, request.assignees, request.course, request.timelineItems)
+        graded_items[request.id] = new_item
+        return jsonify({'ok': 'True', 'addedItem': new_item})
+    if request.method == 'DELETE':
+        del graded_items[request.id]
+        return jsonify({'ok': 'True', 'items': graded_items})
+    if request.method == 'PUT':
+        new_item = GradedItem(request.id, request.name, request.type, request.dueDate, request.weight, request.grade, request.file, request.assignees, request.course, request.timelineItems)
+        graded_items[request.id] = new_item
+        return jsonify({'ok': 'True', 'updatedItem': new_item})
+
+
+
+        
+	    # """return the information of user"""
+        # grade = 75
+        # weight = 10
+        # data = {"grade": 75, "name": "TEST 1", "weight": 10}
+        # return data
 
 # Create a URL route in our application for "/"
 @app.route("/tests", methods = ['GET', 'POST', 'DELETE'])

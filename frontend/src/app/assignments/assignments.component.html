@@ -10,6 +10,7 @@
                             <th>Due Date</th>
                             <th>Weight</th>
                             <th>Grade</th>
+                            <th>Modify</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-assignment>
@@ -18,6 +19,8 @@
                             <td>{{ assignment.dueDate.toDateString() }}</td>
                             <td>{{ assignment.weight }}</td>
                             <td>{{ assignment.grade }}%</td>
+                            <td><p-menu class="relative top-0" #menu [model]="editMenu" [popup]="true" appendTo="body"></p-menu>
+                                <i class="x-button p-2 pi pi-ellipsis-h" (click)="selectedTopic = topic; openEditMenu($event, menu)"></i></td>
                         </tr>
                     </ng-template>
                 </p-table>

@@ -13,28 +13,38 @@ import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { TimelineModule } from 'primeng/timeline';
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
-
+import { CalendarModule } from 'primeng/calendar';
 import { InplaceModule } from 'primeng/inplace';
 import { AssignmentItem } from '../../model/assignment-topic';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { GradedItem } from 'app/model/graded-item';
+import { Course } from 'app/model/course';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 
 @Component({
   selector: 'app-assignment',
   standalone: true,
-    imports: [
-        CommonModule,
-        NgIf,
-        NgFor,
-        InputTextModule,
-        FormsModule,
-        InplaceModule,
-        MenuModule,
-        FileUploadModule, CardModule, DropdownModule, TimelineModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule, ProgressSpinnerModule
-    ],
+  imports: [
+    CommonModule,
+    NgIf,
+    NgFor,
+    InputTextModule,
+    FormsModule,
+    InplaceModule,
+    MenuModule,
+    FileUploadModule,
+    CardModule, DropdownModule,
+    TimelineModule,
+    InputTextModule,
+    DividerModule,
+    AccordionModule,
+    ButtonModule,
+    CheckboxModule,
+    DialogModule,
+    CalendarModule
+  ],
   templateUrl: './assignment.component.html',
   styleUrls: ['./assignment.component.css'],
   encapsulation: ViewEncapsulation.None,
@@ -58,7 +68,6 @@ export class AssignmentComponent implements OnInit{
   showPopup: boolean = false;
   grade:number = 0;
   weight:number = 0;
-  showProgress: boolean = true;
   showPopupAssignees:boolean = false;
   showAddAssignees:boolean = false;
   newAssignee:any = "";
@@ -67,8 +76,9 @@ export class AssignmentComponent implements OnInit{
   selectedTopic: AssignmentItem = new AssignmentItem();
   title:string = "Title";
   showInput:boolean = false;
-  isLoading = false;
   gradedItem: GradedItem = new GradedItem();
+  aCourse: Course = new Course();
+  isLoading = false;
   editMenu: MenuItem[] = [
     {
         label: 'Edit',
@@ -87,17 +97,8 @@ export class AssignmentComponent implements OnInit{
 ];
 
   ngOnInit(): void {
-    this.gradedItem = {
-        id: 0,
-        name: 'Assignment 1',
-        type: 'assignments',
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: '',
-        assignees: [],
-        timelineItems: []
-    }
+    this.aCourse = {id: 0, name: 'ECSE 427', finalGrade: 0, credits: 3, syllabus: null};
+    this.gradedItem = {id: 0, name: 'Assignment 1', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: this.aCourse, timelineItems: []},
     this.topics = [
       { title: 'Topic 1', icon: 'pi pi-book', completed: false, assignees:[]},
       { title: 'Topic 2', icon: 'pi pi-book', completed: false, assignees:[]},
@@ -169,7 +170,6 @@ export class AssignmentComponent implements OnInit{
   }
 
   onUpload(event: FileSendEvent) {
-    this.showProgress = true
     const item = event.formData.get('demo[]')
     if (item instanceof File){
       this.gradedItem.file = item.name;
@@ -187,7 +187,6 @@ export class AssignmentComponent implements OnInit{
 
   showTitleInput(){
     this.showInput = true;
-    this
   }
 
   saveGrade(){

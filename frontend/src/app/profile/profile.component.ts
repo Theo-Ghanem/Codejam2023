@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CardModule} from "primeng/card";
 import {ButtonModule} from "primeng/button";
@@ -11,6 +11,7 @@ import {MenuItem} from "primeng/api";
 import {Course} from "../model/course";
 import {lookupGPA} from "../model/gpa";
 import { GradedItem } from 'app/model/graded-item';
+import {ApiService} from "../services/api.service";
 
 @Component({
     selector: 'app-profile',
@@ -20,12 +21,13 @@ import { GradedItem } from 'app/model/graded-item';
     styleUrls: ['./profile.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
     name: string = 'John Doe';
     email: string = 'john.doe@mail.com';
     courses: Course[] = [];
     gpa: number = 0;
     selectedCourse: Course = new Course();
+    gradedItems: GradedItem[] = [];
     showPopup: boolean = false;
     editModeOn:boolean = false;
     editMenu: MenuItem[] = [
@@ -44,6 +46,15 @@ export class ProfileComponent {
             }
         }
     ];
+
+    constructor(private apiService: ApiService) {
+    }
+
+    ngOnInit() {
+        this.apiService.getItems(null).then((data: any) => {
+            this.gradedItems = data;
+        });
+    }
 
     addCourse() {
         let course = new Course();

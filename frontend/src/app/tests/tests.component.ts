@@ -56,58 +56,13 @@ export class TestsComponent implements OnInit {
 
   constructor(private apiService: ApiService, private router: Router) {}
 
-  ngOnInit() {
-    this.tests = [
-      {
-        id: 0,
-        name: "Test 1",
-        type: "tests",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        assignees: [],
-        file: null,
-        timelineItems: [],
-      },
-      {
-        id: 1,
-        name: "Test 2",
-        type: "tests",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        assignees: [],
-        file: null,
-        timelineItems: [],
-      },
-      {
-        id: 2,
-        name: "Test 3",
-        type: "tests",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        assignees: [],
-        file: null,
-        timelineItems: [],
-      },
-      {
-        id: 3,
-        name: "Test 4",
-        type: "tests",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        assignees: [],
-        file: null,
-        timelineItems: [],
-      },
-    ];
-  }
 
   navToTest() {
     this.router.navigate(["tests", this.selectedTest.id]);
   }
+  ngOnInit() {
+        this.apiService.getItems(null).then(data => this.tests = data.filter(t => t.type === 'tests'));
+   }
 
   openEditMenu(event: any, menu: any) {
     event.stopPropagation();

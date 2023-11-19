@@ -45,7 +45,8 @@ import { ApiService } from 'app/services/api.service';
     ButtonModule,
     CheckboxModule,
     DialogModule,
-    CalendarModule, ProgressSpinnerModule
+    CalendarModule,
+    ProgressSpinnerModule
   ],
   templateUrl: './assignment.component.html',
   styleUrls: ['./assignment.component.css'],
@@ -201,5 +202,17 @@ export class AssignmentComponent implements OnInit{
 
   saveGrade(){
 
+  }
+
+  saveInfo(){
+    this.editModeOn = false;
+    this.gradedItem.name = this.title;
+    this.gradedItem.weight = this.weight;
+    // this.apiService.update(this.gradedItem).then(updatedAssignment => {
+    //   const index = this.topics.findIndex(a => a.id === updatedAssignment.id);
+    //   if (index !== -1) {
+    //     this.topics[index] = updatedAssignment;
+    //   }
+    // });
   }
 }

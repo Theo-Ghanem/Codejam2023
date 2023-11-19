@@ -104,7 +104,7 @@ export class AssignmentComponent implements OnInit{
 
   ngOnInit(): void {
     this.aCourse = {id: 0, name: 'ECSE 427', finalGrade: 0, credits: 3, syllabus: null};
-    this.gradedItem = {id: 0, name: 'Assignment 1', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: this.aCourse, timelineItems: []},
+    this.gradedItem = {id: 0, name: 'Assignment 1', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: this.aCourse, timelineItems: []};
     this.topics = [
       { title: 'Topic 1', icon: 'pi pi-book', completed: false, assignees:[]},
       { title: 'Topic 2', icon: 'pi pi-book', completed: false, assignees:[]},

@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
     courses: Course[] = [];
     gpa: number = 0;
     selectedCourse: Course = new Course();
+    courseItems: GradedItem[] = [];
     selectedItem:GradedItem = new GradedItem();
     gradedItems: GradedItem[] = [];
     showPopup: boolean = false;
@@ -53,6 +54,7 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
+        
         this.apiService.getItems(null).then(data => {
             let array: GradedItem[] = [];
             // iterate through object entries of data.items
@@ -62,10 +64,14 @@ export class ProfileComponent implements OnInit {
                     gradedItem.id = parseInt(key);
                     gradedItem.dueDate = new Date(gradedItem.dueDate);
                     array.push(gradedItem)
+                    console.log(gradedItem.name);
                 }
                 
-                //this.assignments = array.filter(a => a.type === 'assignments');
-            });
+                this.gradedItems = array;
+                //this.gradedItems = this.gradedItems.push({id: 551, name: 'Assignment 1', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []});
+        });
+
+
     }
 
     navToItem(){
@@ -93,6 +99,8 @@ export class ProfileComponent implements OnInit {
     selectCourse(course: Course) {
         this.selectedCourse = course;
         this.showPopup = true;
+        this.courseItems = this.gradedItems.filter(a => a.id === this.selectedCourse.id);
+        
     }
 
     openEditMenu(event: any, menu: any) {

@@ -1,0 +1,18 @@
+<div>
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab header="Assignments">
+            <div class="mt-4 flex flex-row flex-grow-1 justify-content-between">
+                <span class="font-bold">Name</span>
+                <span class="ml-2">Due Date</span>
+                <span class="ml-2">Weight</span>
+                <span class="ml-2">Grade</span>
+            </div>
+            <div class="mt-4 flex flex-row flex-grow-1 justify-content-between" *ngFor="let assignment of assignments">
+                <span class="font-bold">{{ assignment.name }}</span>
+                <span class="ml-2">{{ assignment.dueDate.toDateString() }}</span>
+                <span class="ml-2">{{ assignment.weight }}</span>
+                <span class="ml-2">{{ assignment.grade }}%</span>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</div>

@@ -11,6 +11,11 @@
     }
 }
 
+.p-avatar.p-avatar-xl {
+    width: 7rem;
+    height: 7rem;
+}
+
 .p-card-content {
     padding: 0;
 }

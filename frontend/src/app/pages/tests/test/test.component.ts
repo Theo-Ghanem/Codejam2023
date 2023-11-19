@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import {FileUploadHandlerEvent, FileUploadModule} from "primeng/fileupload";
+import {FileSendEvent, FileUploadHandlerEvent, FileUploadModule} from "primeng/fileupload";
 import {CardModule} from "primeng/card";
 import {TimelineModule} from "primeng/timeline";
 import {TopicItem} from '../../../model/topic-item';
@@ -12,12 +12,13 @@ import {AccordionModule} from "primeng/accordion";
 import {CheckboxModule} from "primeng/checkbox";
 import {DialogModule} from "primeng/dialog";
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
-import { GradeService } from 'src/app/services/grade.service';
+import { ApiService } from 'src/app/services/api.service';
+import { GradedItem } from 'src/app/model/graded-item';
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, FormsModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
+  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, NgFor, FormsModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css'],
   encapsulation: ViewEncapsulation.None,
@@ -42,17 +43,21 @@ export class TestComponent implements OnInit{
   showPopup: boolean = false;
   selectedTopic: TopicItem = new TopicItem();
   grades: number[] = [];
-  grade: number = 50;
-  weight: number = 50;
+  grade?: number = 50;
+  weight?: number = 50;
+  uploadedFiles: string[] = []
   // grade = this.grades[0];
   // weight = this.grades[1];
   
-  constructor(private gradeService: GradeService) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.gradeService.getGrade().subscribe((data: any[]) => {
+    this.apiService.getGrade().subscribe((data: GradedItem) => {
       // this.grades = data;
       console.log(data);
+      this.grade = data.grade;
+      this.weight = data.weight;
+      // this.name = data.name;
       // if (data.grade != null, data.weight != null){
 
       // }
@@ -82,11 +87,23 @@ export class TestComponent implements OnInit{
   }
 
   showNotes(topic: TopicItem) {
+    console.log("filenaem is " + topic.file);
+    this.apiService.getQuestions(topic.file).then((data: any) => {
+      console.log(data);
+      topic.notes = data['questions'];
+    });
     this.showPopup = true;
     this.selectedTopic = topic;
   }
 
-  onUpload(event: FileUploadHandlerEvent) {
+  onUpload(event: FileSendEvent, topic: TopicItem) {
+    console.log("i am here" + topic.title);
+    const item = event.formData.get('demo[]')
+    if (item instanceof File){
+      topic.file = item.name;
+    }
+    console.log(topic.file);
   }
+  
 }
 

@@ -43,11 +43,13 @@
      </div>
     </p-accordionTab>
      <p-accordionTab header="Assignment Timeline">
-       <div class="mt-4">
-         <div class="uploadImage" *ngIf="!gradedItem.file">
+       <!-- <div class="mt-4"> -->
+        <div class="mt-4">
+         <div class="uploadImage flex flex-grow-1 flex-row  justify-content-center align-content-center"  *ngIf="!gradedItem.file">
            <p-fileUpload class="w-full" mode="basic" allow-types="*.pdf" name = "demo[]" chooseLabel="Upload a File" url="http://127.0.0.1:5000/assignment"
                               [maxFileSize]="100000000" [fileLimit]="1"
-                             (onSend)="onUpload($event)" [auto]="true"></p-fileUpload>
+                             (onSend)="onUpload($event, gradedItem)" [auto]="true"></p-fileUpload>
+           <!-- <button pButton label="Submit" (click)="showTasks(gradedItem)" class="p-button-text p-1 m-4" style="background-color: aliceblue; border-radius:10%; width:100px"></button> -->
          </div>
          <div class="uploadImage" *ngIf="gradedItem.file && gradedItem.timelineItems.length !== 0">
            <p>Progress</p>
@@ -56,7 +58,7 @@
            <div class="flex flex-grow-1 justify-content-center" *ngIf="gradedItem.file && gradedItem.timelineItems.length === 0">
                <p-progressSpinner></p-progressSpinner>
            </div>
-         <p-timeline [@timelineAnimation]="topics.length" *ngIf="gradedItem.file && gradedItem.timelineItems.length !== 0" [value]="topics" align="alternate" styleClass="customized-timeline">
+         <p-timeline [@timelineAnimation]="gradedItem.timelineItems.length" *ngIf="gradedItem.file && gradedItem.timelineItems.length !== 0" [value]="gradedItem.timelineItems" align="alternate" styleClass="customized-timeline">
            <ng-template pTemplate="marker" let-topic>
             <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
                 <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
@@ -98,7 +100,7 @@
    <!-- TODO -->
    <p-dialog [header]="selectedTopic?.title + ' Notes'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
      <p class="m-0">
-       <textarea class="w-full" rows="10" [(ngModel)]="selectedTopic.notes"></textarea>
+       <textarea class="w-full" rows="10" [(ngModel)]="selectedTopic.description"></textarea>
      </p>
    </p-dialog>
    <p-dialog [header]="selectedTopic?.title + ' Assignees'" [(visible)]="showPopupAssignees" [modal]="true" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="true">

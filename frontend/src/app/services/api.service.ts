@@ -3,6 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { TopicItem } from "../model/topic-item";
 import { GradedItem } from "app/model/graded-item";
+import { AssignmentItem } from "app/model/assignment-topic";
+
+
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +13,14 @@ import { GradedItem } from "app/model/graded-item";
 export class ApiService {
   apiUrl = "http://127.0.0.1:5000";
 
+  tasks: AssignmentItem[] = []
+  tasksSet: boolean = false;
+
   constructor(private http: HttpClient) {} // getPosts(): Observable<any[]> { //   return this.http.get<any[]>(`${this.apiUrl}` + testId); // }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
 
   getGrade(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/tests`);
@@ -45,8 +55,11 @@ export class ApiService {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+        await this.delay(5000);
+      this.getTasks(data);
     }
+
+    console.log("RESP");
 
     return await response.json();
   }
@@ -121,4 +134,5 @@ export class ApiService {
 
     return await response.json();
   }
+
 }

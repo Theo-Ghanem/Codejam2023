@@ -21,6 +21,7 @@ import { MenuModule } from 'primeng/menu';
 import { GradedItem } from 'app/model/graded-item';
 import { Course } from 'app/model/course';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import { ApiService } from 'app/services/api.service';
 
 
 @Component({
@@ -95,6 +96,7 @@ export class AssignmentComponent implements OnInit{
         }
     }
 ];
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.aCourse = {id: 0, name: 'ECSE 427', finalGrade: 0, credits: 3, syllabus: null};
@@ -109,6 +111,9 @@ export class AssignmentComponent implements OnInit{
     this.topicsNoAdd = this.topics.filter(item => item.title!=='Add');
   }
 
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
   addTopic(topic: AssignmentItem) {
     if (topic.title == 'Add') {
       this.topics.splice(this.topics.length - 1, 0, { title: 'Topic ' + this.topics.length, icon: 'pi pi-book', completed: false});
@@ -169,12 +174,53 @@ export class AssignmentComponent implements OnInit{
     this.topicProgress = Math.round(100 * (completedTopic/this.topicsNoAdd.length));
   }
 
-  onUpload(event: FileSendEvent) {
+  async onUpload(event: FileSendEvent, gradedItem: GradedItem) {
     const item = event.formData.get('demo[]')
+    console.log(gradedItem)
     if (item instanceof File){
-      this.gradedItem.file = item.name;
+      gradedItem.file = item.name;
     }
-    console.log("i am here" + this.gradedItem.name);
+    console.log("i am here" + gradedItem.name);
+    // await this.delay(30000);
+    console.log("sending get");
+    this.apiService.getTasks(gradedItem.file).then((data: any) => {
+        // console.log(data);
+        gradedItem.timelineItems = JSON.parse(data['assignments']) as AssignmentItem[];
+        for (let t of gradedItem.timelineItems as AssignmentItem[]){
+          console.log("in here");
+          // console.log(t.get("assignees"));
+          t = t as AssignmentItem;
+          // if (t instanceof AssignmentItem){
+            console.log("here now");
+            console.log(t.assignees);
+            for (let j of t.assignees){
+              console.log("adding assignees");
+              if (gradedItem.assignees.length < 4){
+                gradedItem.assignees.push("mathieu");
+                gradedItem.assignees.push("sehr");
+                gradedItem.assignees.push("gabby");
+              }
+              console.log("j" + j);
+              if (j == "Person 1"){
+                console.log("this")
+                j = gradedItem.assignees[0];
+              }
+              if (j == "Person 2"){
+                j = gradedItem.assignees[1];
+              }
+              if (j == "Person 3"){
+                j = gradedItem.assignees[2];
+              }
+              if (j == "Person 4"){
+                j = gradedItem.assignees[3];
+              }
+            // }
+          }
+
+
+        }
+        console.log(gradedItem.timelineItems)
+      });
 
   }
 

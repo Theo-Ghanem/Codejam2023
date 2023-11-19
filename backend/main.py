@@ -106,16 +106,15 @@ def assignment():
     if request.method == 'PUT':
         print("json is" + request.get_json())
         name = request.get_json().split('.')[0]
-        print(g_questions.items())
-        questions = g_questions.get(name)
+        items = assignments[name]
         print("aDone2")
-        return jsonify({'ok': 'True', 'questions': questions})
+        return jsonify({'ok': 'True', 'assignments': items})
     
         
 def generate_tasks(filename):
     name = filename.split('.')[0]
     new_filepath = os.path.join(app.config['UPLOAD_FOLDER'], name + '.txt')
-    question = "please take in the following assignment description and split it into manageable tasks assigned to 4 separate people. Please return to me a python dictionary with each task in chronological order with a title, list of assignees, and a description of the task: "
+    question = "please take in the following assignment description and split it into manageable tasks assigned to 4 separate people. Please return to me a json array storing each task in chronological order with a title, list of assignees, and a description of the task: "
     with open(new_filepath, 'r') as r: 
         for line in r: 
             if line.strip(): 
@@ -135,6 +134,7 @@ def generate_tasks(filename):
         )
         ready = False
 
+        print("Waiting stage")
         while(not ready):
             time.sleep(1)
             run = client.beta.threads.runs.retrieve(
@@ -148,11 +148,14 @@ def generate_tasks(filename):
         thread_id=thread.id
         )
         response = messages.data[0].content[0].text.value
+        print("resp" + response)
+        # print(response)
         tasks = response
         # lines = response.split('\n')
         # questions = [line.split('. ', 1)[1] for line in lines if line.strip().startswith(str(lines.index(line) + 1) + '. ')]
    
     assignments[name] = tasks
+    # print("Ass" + assignments.keys)
 
 
 

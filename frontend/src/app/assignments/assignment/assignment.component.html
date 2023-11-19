@@ -81,7 +81,7 @@
         <button pButton label="Remove" class="p-button-text p-1" (click)="removeAssignee()"></button>
       </p>
    </p-dialog>
-   <p-dialog [header]="'Edit ' + selectedTopic?.title" [(visible)]="editModeOn" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="false" [closable]="false">
+   <p-dialog [header]="'Edit ' + selectedTopic?.title" [(visible)]="editModeOn" [modal]="true" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="false" [closable]="false">
     <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2"> 
       <input pInputText [(ngModel)]="selectedTopic.title"/>
       <button pButton label="Close" class="p-button-text p-1" (click)="editModeOn = false"></button>

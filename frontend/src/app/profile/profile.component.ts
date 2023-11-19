@@ -26,12 +26,13 @@ export class ProfileComponent {
     gpa: number = 0;
     selectedCourse: Course = new Course();
     showPopup: boolean = false;
+    editModeOn:boolean = false;
     editMenu: MenuItem[] = [
         {
             label: 'Edit',
             icon: 'pi pi-pencil',
             command: () => {
-                this.showPopup = true;
+                this.editModeOn = true;
             }
         },
         {

@@ -10,6 +10,10 @@ import { MenuItem } from 'primeng/api';
 import { AssignmentItem } from 'app/model/assignment-topic';
 import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
+import {parse} from "jasmine-spec-reporter/built/configuration-parser";
+import {json} from "express";
+import {of} from "rxjs";
+import arrayContaining = jasmine.arrayContaining;
 
 
 @Component({
@@ -48,12 +52,13 @@ export class AssignmentsComponent implements OnInit {
   ];
   defaultAssignment: GradedItem = {
     id: 0,
-    name: 'Default Assignment',
+    name: 'New Assignment',
     type: 'assignments',
     dueDate: new Date(),
     weight: 0,
     grade: 0,
     assignees: [],
+    course: null,
     file: null,
     timelineItems: []
   };
@@ -61,7 +66,15 @@ export class AssignmentsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.apiService.getItems(null).then(data => this.assignments = data.filter(t => t.type === 'assignments'));
+        this.apiService.getItems(null).then(data => {
+            let array: GradedItem[] = [];
+            // iterate through object entries of data.items
+            for (let [key, value] of Object.entries(data.items)) {
+                let v = value as string;
+                array.push(JSON.parse(v) as GradedItem)
+            }
+            this.assignments = array.filter(a => a.type === 'assignments');
+        });
     }
 
     showTasks(grade: GradedItem) {

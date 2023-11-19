@@ -57,7 +57,15 @@ export class TestsComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router) {}
 
     ngOnInit() {
-        this.apiService.getItems(null).then(data => this.tests = data.filter(t => t.type === 'tests'));
+      this.apiService.getItems(null).then(data => {
+        let array: GradedItem[] = [];
+        // iterate through object entries of data.items
+        for (let [key, value] of Object.entries(data.items)) {
+          let v = value as string;
+          array.push(JSON.parse(v) as GradedItem)
+        }
+        this.tests = array.filter(a => a.type === 'tests');
+      });
     }
 
   navToTest() {

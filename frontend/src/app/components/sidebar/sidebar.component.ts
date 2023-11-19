@@ -71,14 +71,16 @@ export class SidebarComponent implements OnInit {
     this.activeRoute = route;
   }
 
-  navigateAndToggle(route: RouteInfo) {
-    // Navigate to the route
-    this.router.navigate([route.path]);
+  navigateAndToggle(route) {
+    // Close all other routes
+    this.menuItems.forEach(item => {
+      if (item !== route) {
+        item.isExpanded = false;
+      }
+    });
   
-    // Toggle the visibility of the subroutes if they exist
-    if (route.subRoutes) {
-      route.isExpanded = !route.isExpanded;
-    }
+    // Toggle the clicked route
+    route.isExpanded = !route.isExpanded;
   }
 
   isActive(routePath: string): boolean {

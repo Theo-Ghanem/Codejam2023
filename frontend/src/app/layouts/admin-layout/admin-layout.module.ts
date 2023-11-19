@@ -22,6 +22,7 @@ import { TestComponent } from 'app/tests/test/test.component';
 import { AssignmentComponent } from 'app/assignments/assignment/assignment.component';
 import {ProfileComponent} from "../../profile/profile.component";
 import {AssignmentsComponent} from "../../assignments/assignments.component";
+import {LoginComponent} from "../../login/login.component";
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import {AssignmentsComponent} from "../../assignments/assignments.component";
     TestComponent,
     AssignmentComponent,
     AssignmentsComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginComponent
   ],
   declarations: [
     DashboardComponent,

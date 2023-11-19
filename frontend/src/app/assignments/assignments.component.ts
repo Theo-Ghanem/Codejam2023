@@ -46,6 +46,17 @@ export class AssignmentsComponent implements OnInit {
           }
       }
   ];
+  defaultAssignment: GradedItem = {
+    id: 0,
+    name: 'Default Assignment',
+    type: 'assignments',
+    dueDate: new Date(),
+    weight: 0,
+    grade: 0,
+    assignees: [],
+    file: null,
+    timelineItems: []
+  };
     constructor(private apiService: ApiService, private router: Router) {
     }
 
@@ -79,16 +90,26 @@ export class AssignmentsComponent implements OnInit {
       menu.toggle(event);
     }
 
-    addAssignment(assignment: GradedItem) {
-      this.apiService.createItem(assignment).then(newAssignment => {
-        this.assignments.push(newAssignment);
-      });
+    addAssignment() {
+      // Create a copy of the default assignment
+      let newAssignment = { ...this.defaultAssignment };
+      
+      // Generate a unique id for the new assignment
+      newAssignment.id = this.assignments.length > 0 ? Math.max(...this.assignments.map(a => a.id)) + 1 : 1;
+      
+      this.apiService.createItem(newAssignment).then(assignment => {
+        this.assignments.push(assignment.addedItem);
+        this.router.navigate(['/assignments', newAssignment.id]);
+      }
+      );
+     
     }
     
     removeAssignment(assignment: GradedItem) {
       this.apiService.deleteItem(assignment.id).then(() => {
         this.assignments = this.assignments.filter(a => a.id !== assignment.id);
       });
+
     }
     
     editAssignment(assignment: GradedItem) {

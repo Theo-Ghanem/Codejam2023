@@ -21,6 +21,8 @@ import { MenuModule } from 'primeng/menu';
 import { GradedItem } from 'app/model/graded-item';
 import { Course } from 'app/model/course';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from 'app/services/api.service';
 
 
 @Component({
@@ -96,6 +98,9 @@ export class AssignmentComponent implements OnInit{
         }
     }
 ];
+  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+
+
 
   ngOnInit(): void {
     this.aCourse = {id: 0, name: 'ECSE 427', finalGrade: 0, credits: 3, syllabus: null};
@@ -108,6 +113,11 @@ export class AssignmentComponent implements OnInit{
       { title: 'Add' , icon: 'pi pi-plus',  completed: true}
     ];
     this.topicsNoAdd = this.topics.filter(item => item.title!=='Add');
+    this.route.params.subscribe(params => {
+         this.apiService.getItems(null).then((data: any) => {
+          this.gradedItem = data.find((item: any) => item.id == params.id);
+      });
+    });
   }
 
   addTopic(topic: AssignmentItem) {

@@ -259,7 +259,7 @@ export class AssignmentComponent implements OnInit{
     this.gradedItem.name = this.title;
     this.gradedItem.weight = this.weight;
     this.apiService.update(this.gradedItem).then(updatedAssignment => {
-      this.gradedItem = updatedAssignment;
+      this.gradedItem = updatedAssignment.updatedItem;
     });
   }
 }

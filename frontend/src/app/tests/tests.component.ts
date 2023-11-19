@@ -70,6 +70,33 @@ export class TestsComponent implements OnInit {
         }
         this.tests = array.filter(a => a.type === 'tests');
       });
+
+      this.tests.push({
+            id: 1,
+            name: 'Assignment 1',
+            type: 'tests',
+            dueDate: new Date(2021, 3, 1),
+            weight: 10,
+            grade: 100,
+            file: "assignment1.json",
+            assignees : ["math", "bob", "mathieu", "sehr"],
+            course: null,
+            timelineItems: []
+          }
+      );
+      this.tests.push({
+            id: 2,
+            name: 'Assignment 2',
+            type: 'tests',
+            dueDate: new Date(2021, 4, 1),
+            weight: 10,
+            grade: 100,
+            file: "assignment1.json",
+            assignees : ["math", "theo", "mathieu", "sehr"],
+            course: null,
+            timelineItems: []
+          }
+      );
     }
 
   navToTest() {

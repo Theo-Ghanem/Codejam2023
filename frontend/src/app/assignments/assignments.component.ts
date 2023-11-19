@@ -70,7 +70,10 @@ export class AssignmentsComponent implements OnInit {
             // iterate through object entries of data.items
             for (let [key, value] of Object.entries(data.items)) {
                 let v = value as string;
-                array.push(JSON.parse(v) as GradedItem)
+                let gradedItem = JSON.parse(v) as GradedItem;
+                gradedItem.id = parseInt(key);
+                gradedItem.dueDate = new Date(gradedItem.dueDate);
+                array.push(gradedItem)
             }
             this.assignments = array.filter(a => a.type === 'assignments');
         });

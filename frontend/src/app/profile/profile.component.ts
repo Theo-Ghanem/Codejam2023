@@ -10,6 +10,7 @@ import {MenuModule} from "primeng/menu";
 import {MenuItem} from "primeng/api";
 import {Course} from "../model/course";
 import {lookupGPA} from "../model/gpa";
+import { GradedItem } from 'app/model/graded-item';
 
 @Component({
     selector: 'app-profile',
@@ -48,7 +49,6 @@ export class ProfileComponent {
         let course = new Course();
         course.name = 'New Course';
         course.finalGrade = 0;
-        course.grades = [];
         this.courses.push(course);
     }
 
@@ -68,12 +68,12 @@ export class ProfileComponent {
         menu.toggle(event);
     }
 
-    calculateFinalGrade(course: Course) {
+    calculateFinalGrade(course: Course, gradedItems: GradedItem[]) {
         let totalWeight = 0;
         let totalGrade = 0;
-        for (let grade of course.grades) {
-            totalWeight += grade.weight;
-            totalGrade += grade.grade * grade.weight;
+        for (let item of gradedItems) {
+            totalWeight += item.grade;
+            totalGrade += item.grade * item.weight;
         }
         course.finalGrade = totalGrade / totalWeight;
     }

@@ -56,7 +56,7 @@ export class AssignmentComponent implements OnInit{
   showPopup: boolean = false;
   grade:number = 0;
   weight:number = 0;
-  showProgress: boolean = false;
+  showProgress: boolean = true;
   showPopupAssignees:boolean = false;
   showAddAssignees:boolean = false;
   newAssignee:any = "";

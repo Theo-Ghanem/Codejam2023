@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { TopicItem } from "../model/topic-item";
+import { GradedItem } from "app/model/graded-item";
 
 @Injectable({
   providedIn: "root",
@@ -36,6 +37,77 @@ export class ApiService {
     console.log(data);
 
     const response = await fetch(`${this.apiUrl}/assignment`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  }
+  async createItem(data: GradedItem) {
+    console.log(data);
+
+    const response = await fetch(`${this.apiUrl}/grades`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  }
+
+  async getItems(data:any) {
+    console.log(data); //should be null
+
+    const response = await fetch(`${this.apiUrl}/grades`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  }
+
+  async deleteItem(data: number) {
+    console.log(data);
+
+    const response = await fetch(`${this.apiUrl}/grades`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({id: data}),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  }
+
+  async update(data: GradedItem) {
+    console.log(data);
+
+    const response = await fetch(`${this.apiUrl}/grades`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

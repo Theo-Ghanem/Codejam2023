@@ -6,6 +6,10 @@ import {GradedItem} from "../model/graded-item";
 import {Router} from "@angular/router";
 import { ApiService } from 'app/services/api.service';
 import { FileSendEvent } from 'primeng/fileupload';
+import { MenuItem } from 'primeng/api';
+import { AssignmentItem } from 'app/model/assignment-topic';
+import { MenuModule } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
 
 
 @Component({
@@ -16,14 +20,32 @@ import { FileSendEvent } from 'primeng/fileupload';
     imports: [
         CommonModule,
         AccordionModule,
-        TableModule
+        TableModule,
+        MenuModule,
+        ButtonModule
     ],
     encapsulation: ViewEncapsulation.None
 })
 export class AssignmentsComponent implements OnInit {
     assignments: GradedItem[] = [];
     selectedAssignment!: GradedItem;
-
+    editModeOn:boolean = false;
+    editMenu: MenuItem[] = [
+      {
+          label: 'Edit',
+          icon: 'pi pi-pencil',
+          command: () => {
+              this.editModeOn = true;
+          }
+      },
+      {
+          label: 'Delete',
+          icon: 'pi pi-trash',
+          command: () => {
+              this.removeAssignment(this.selectedAssignment);
+          }
+      }
+  ];
     constructor(private apiService: ApiService, private router: Router) {
     }
 
@@ -61,5 +83,32 @@ export class AssignmentsComponent implements OnInit {
     navToAssignment() {
         this.router.navigate(['/assignments', this.selectedAssignment.id])
     }
+    openEditMenu(event: any, menu: any) {
+      event.stopPropagation();
+      menu.toggle(event);
+    }
+
+    addAssignment(assignment: GradedItem) {
+      this.apiService.createItem(assignment).then(newAssignment => {
+        this.assignments.push(newAssignment);
+      });
+    }
+    
+    removeAssignment(assignment: GradedItem) {
+      this.apiService.deleteItem(assignment.id).then(() => {
+        this.assignments = this.assignments.filter(a => a.id !== assignment.id);
+      });
+    }
+    
+    editAssignment(assignment: GradedItem) {
+      this.apiService.update(assignment).then(updatedAssignment => {
+        const index = this.assignments.findIndex(a => a.id === updatedAssignment.id);
+        if (index !== -1) {
+          this.assignments[index] = updatedAssignment;
+        }
+      });
+    }
+
+
 
 }

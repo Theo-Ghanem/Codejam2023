@@ -2,6 +2,8 @@
     <p-accordion [activeIndex]="0">
         <p-accordionTab header="Tests">
             <div class="mt-4" selectionMode="single">
+                <!-- Add Test button -->
+                <button pButton label="Save" (click)="openTestForm()" class="p-button-text p-1" style="background-color: aliceblue; border-radius:10%; width:100px">Add Test</button>
                 <p-table [value]="tests" selectionMode="single" [(selection)]="selectedTest" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }"
                          (onRowSelect)="navToTest()">
                     <ng-template pTemplate="header">
@@ -10,6 +12,7 @@
                             <th>Due Date</th>
                             <th>Weight</th>
                             <th>Grade</th>
+                            <th>Modify</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-test>
@@ -18,6 +21,8 @@
                             <td>{{ test.dueDate.toDateString() }}</td>
                             <td>{{ test.weight }}</td>
                             <td>{{ test.grade }}%</td>
+                            <td><p-menu class="relative top-0" #menu [model]="editMenu" [popup]="true" appendTo="body"></p-menu>
+                                <i class="x-button p-2 pi pi-ellipsis-h" (click)="selectedTopic = topic; openEditMenu($event, menu)"></i></td>
                         </tr>
                     </ng-template>
                 </p-table>

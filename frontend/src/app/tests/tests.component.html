@@ -1,1 +1,27 @@
-<p>tests works!</p>
+<div>
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab header="Tests">
+            <div class="mt-4" selectionMode="single">
+                <p-table [value]="tests" selectionMode="single" [(selection)]="selectedTest" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }"
+                         (onRowSelect)="navToTest()">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Name</th>
+                            <th>Due Date</th>
+                            <th>Weight</th>
+                            <th>Grade</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-test>
+                        <tr [pSelectableRow]="test">
+                            <td class="font-bold">{{test.name}}</td>
+                            <td>{{ test.dueDate.toDateString() }}</td>
+                            <td>{{ test.weight }}</td>
+                            <td>{{ test.grade }}%</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</div>

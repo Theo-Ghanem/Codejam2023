@@ -1,4 +1,5 @@
 export class GradedItem {
+  id: number = 0;
   name: string = '';
   type: 'assignments' | 'tests' = 'assignments';
   dueDate: Date = new Date();

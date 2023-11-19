@@ -3,7 +3,7 @@ import { Course } from "./course";
 import { TopicItem } from "./topic-item";
 
 export class GradedItem {
-  id: number  = 0;
+  id: number = 0;
   name: string = '';
   type: 'assignments' | 'tests' = 'assignments';
   dueDate: Date = new Date();

@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccordionModule} from "primeng/accordion";
 import {TableModule} from "primeng/table";
-import {NgForOf} from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {GradedItem} from "../model/graded-item";
+import {Router} from "@angular/router";
 import { ApiService } from 'app/services/api.service';
 import { FileSendEvent } from 'primeng/fileupload';
 
@@ -13,16 +14,18 @@ import { FileSendEvent } from 'primeng/fileupload';
     templateUrl: './assignments.component.html',
     styleUrls: ['./assignments.component.css'],
     imports: [
+        CommonModule,
         AccordionModule,
-        TableModule,
-        NgForOf
+        TableModule
     ],
     encapsulation: ViewEncapsulation.None
 })
 export class AssignmentsComponent implements OnInit {
     assignments: GradedItem[] = [];
+    selectedAssignment!: GradedItem;
 
-    constructor(private apiService: ApiService) {}
+    constructor(private apiService: ApiService, private router: Router) {
+    }
 
     ngOnInit() {
         this.assignments = [
@@ -54,5 +57,9 @@ export class AssignmentsComponent implements OnInit {
         }
         console.log(ass.file);
       }
+
+    navToAssignment() {
+        this.router.navigate(['/assignments', this.selectedAssignment.id])
+    }
 
 }

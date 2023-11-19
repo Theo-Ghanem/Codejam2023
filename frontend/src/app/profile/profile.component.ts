@@ -12,11 +12,12 @@ import {Course} from "../model/course";
 import {lookupGPA} from "../model/gpa";
 import { GradedItem } from 'app/model/graded-item';
 import {ApiService} from "../services/api.service";
+import {TableModule} from "primeng/table";
 
 @Component({
     selector: 'app-profile',
     standalone: true,
-    imports: [CommonModule, CardModule, ButtonModule, AccordionModule, AvatarModule, DialogModule, PaginatorModule, MenuModule],
+    imports: [CommonModule, CardModule, TableModule, ButtonModule, AccordionModule, AvatarModule, DialogModule, PaginatorModule, MenuModule],
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.css'],
     encapsulation: ViewEncapsulation.None
@@ -27,6 +28,8 @@ export class ProfileComponent implements OnInit {
     courses: Course[] = [];
     gpa: number = 0;
     selectedCourse: Course = new Course();
+    courseItems: GradedItem[] = [];
+    selectedItem:GradedItem = new GradedItem();
     gradedItems: GradedItem[] = [];
     showPopup: boolean = false;
     editModeOn:boolean = false;
@@ -51,9 +54,34 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.apiService.getItems(null).then((data: any) => {
-            this.gradedItems = data;
+        
+        this.apiService.getItems(null).then(data => {
+            let array: GradedItem[] = [];
+            // iterate through object entries of data.items
+                for (let [key, value] of Object.entries(data.items)) {
+                    let v = value as string;
+                    let gradedItem = JSON.parse(v) as GradedItem;
+                    gradedItem.id = parseInt(key);
+                    gradedItem.dueDate = new Date(gradedItem.dueDate);
+                    array.push(gradedItem)
+                    console.log(gradedItem.name);
+                }
+                
+                this.gradedItems = array;
+                //this.gradedItems = this.gradedItems.push({id: 551, name: 'Assignment 1', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []});
         });
+
+
+    }
+
+    navToItem(){
+        // if(){
+        //     this.router.navigate(['/assignments', this.selectedAssignment.id])
+        // }
+        // else(){
+
+        // }
+        
     }
 
     addCourse() {
@@ -71,6 +99,8 @@ export class ProfileComponent implements OnInit {
     selectCourse(course: Course) {
         this.selectedCourse = course;
         this.showPopup = true;
+        this.courseItems = this.gradedItems.filter(a => a.id === this.selectedCourse.id);
+        
     }
 
     openEditMenu(event: any, menu: any) {

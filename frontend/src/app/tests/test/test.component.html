@@ -18,7 +18,7 @@
                 </div>
               </ng-template>
               <p-fileUpload *ngIf="!topic.file" class="w-full" mode="basic" chooseLabel="Choose" name="demo[]"
-                            accept="*.pdf" [maxFileSize]="1000000000" url="http://127.0.0.1:5000/topic" [fileLimit]="1"
+                            allow-types="*.pdf" [maxFileSize]="1000000000" url="http://127.0.0.1:5000/topic" [fileLimit]="1"
                             (onSend)="onUpload($event, topic)" [auto]="true"></p-fileUpload>
               <div *ngIf="topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
                 <button pButton label="Notes" class="p-button-text p-1" (click)="showNotes(topic)"></button>

@@ -14,11 +14,13 @@ import {animate, query, stagger, style, transition, trigger} from "@angular/anim
 import { TopicItem } from 'app/model/topic-item';
 import { GradedItem } from 'app/model/graded-item';
 import { ApiService } from 'app/services/api.service';
+import { MenuItem } from 'primeng/api/menuitem';
+import { MenuModule } from 'primeng/menu';
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, NgFor, FormsModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
+  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, NgFor, FormsModule, MenuModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css'],
   encapsulation: ViewEncapsulation.None,
@@ -42,6 +44,23 @@ export class TestComponent implements OnInit{
   incompleteColor: string = '#FF9800';
   showPopup: boolean = false;
   selectedTopic: TopicItem = new TopicItem();
+  editModeOn:boolean = false;
+  editMenu: MenuItem[] = [
+    {
+        label: 'Edit',
+        icon: 'pi pi-pencil',
+        command: () => {
+            this.editModeOn = true;
+        }
+    },
+    {
+        label: 'Delete',
+        icon: 'pi pi-trash',
+        command: () => {
+            this.removeTopic(this.selectedTopic);
+        }
+    }
+];
   grades: number[] = [];
   grade?: number = 50;
   weight?: number = 50;

@@ -21,7 +21,7 @@ import { TestsComponent } from 'app/tests/tests.component';
 import { TestComponent } from 'app/tests/test/test.component';
 import { AssignmentComponent } from 'app/assignments/assignment/assignment.component';
 import {ProfileComponent} from "../../profile/profile.component";
-import { AssignmentsComponent } from 'app/assignments/assignments.component';
+import {AssignmentsComponent} from "../../assignments/assignments.component";
 
 @NgModule({
   imports: [

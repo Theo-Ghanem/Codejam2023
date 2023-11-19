@@ -12,6 +12,7 @@ import {TestComponent} from 'app/tests/test/test.component';
 import {TestsComponent} from 'app/tests/tests.component';
 import {AssignmentComponent} from 'app/assignments/assignment/assignment.component';
 import {ProfileComponent} from "../../profile/profile.component";
+import {AssignmentsComponent} from "../../assignments/assignments.component";
 
 export const AdminLayoutRoutes: Routes = [
     {path: 'dashboard', component: DashboardComponent},
@@ -24,6 +25,7 @@ export const AdminLayoutRoutes: Routes = [
     {path: 'upgrade', component: UpgradeComponent},
     {path: 'tests', component: TestsComponent},
     {path: 'tests/:id', component: TestComponent},
+    {path: 'assignments', component: AssignmentsComponent},
     {path: 'assignments/:id', component: AssignmentComponent},
     {path: 'profile', component: ProfileComponent}
 ];

@@ -50,6 +50,7 @@ export class TestsComponent implements OnInit {
     weight: 0,
     grade: 0,
     assignees: [],
+    course: null,
     file: null,
     timelineItems: [],
   };
@@ -62,10 +63,40 @@ export class TestsComponent implements OnInit {
         // iterate through object entries of data.items
         for (let [key, value] of Object.entries(data.items)) {
           let v = value as string;
-          array.push(JSON.parse(v) as GradedItem)
+          let gradedItem = JSON.parse(v) as GradedItem;
+          gradedItem.id = parseInt(key);
+          gradedItem.dueDate = new Date(gradedItem.dueDate);
+          array.push(gradedItem)
         }
         this.tests = array.filter(a => a.type === 'tests');
       });
+
+      this.tests.push({
+            id: 1,
+            name: 'Assignment 1',
+            type: 'tests',
+            dueDate: new Date(2021, 3, 1),
+            weight: 10,
+            grade: 100,
+            file: "assignment1.json",
+            assignees : ["math", "bob", "mathieu", "sehr"],
+            course: null,
+            timelineItems: []
+          }
+      );
+      this.tests.push({
+            id: 2,
+            name: 'Assignment 2',
+            type: 'tests',
+            dueDate: new Date(2021, 4, 1),
+            weight: 10,
+            grade: 100,
+            file: "assignment1.json",
+            assignees : ["math", "theo", "mathieu", "sehr"],
+            course: null,
+            timelineItems: []
+          }
+      );
     }
 
   navToTest() {

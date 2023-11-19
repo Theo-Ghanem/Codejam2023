@@ -9,7 +9,7 @@ export class GradedItem {
   dueDate: Date = new Date();
   weight: number = 1;
   grade: number = 100;
-  file:string = "";
+  file: string = "";
   assignees:string[] = [];
   course?: Course;
   timelineItems: TopicItem[] | AssignmentItem[] = [];

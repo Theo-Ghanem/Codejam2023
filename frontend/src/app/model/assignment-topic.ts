@@ -2,6 +2,6 @@ export class AssignmentItem {
     title?: string;
     icon?: string;
     completed?: boolean;
-    notes?: string;
+    description?: string;
     assignees?:string[];
   }

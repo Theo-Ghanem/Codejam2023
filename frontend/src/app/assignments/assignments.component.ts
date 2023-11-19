@@ -1,50 +1,50 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AccordionModule} from "primeng/accordion";
-import {TableModule} from "primeng/table";
-import {CommonModule} from "@angular/common";
-import {GradedItem} from "../model/graded-item";
-import {Router} from "@angular/router";
-import { ApiService } from 'app/services/api.service';
-import { FileSendEvent } from 'primeng/fileupload';
-import { MenuItem } from 'primeng/api';
-import { AssignmentItem } from 'app/model/assignment-topic';
-import { MenuModule } from 'primeng/menu';
-import { ButtonModule } from 'primeng/button';
-
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { AccordionModule } from "primeng/accordion";
+import { TableModule } from "primeng/table";
+import { CommonModule } from "@angular/common";
+import { GradedItem } from "../model/graded-item";
+import { Router } from "@angular/router";
+import { ApiService } from "app/services/api.service";
+import { FileSendEvent } from "primeng/fileupload";
+import { MenuItem } from "primeng/api";
+import { AssignmentItem } from "app/model/assignment-topic";
+import { MenuModule } from "primeng/menu";
+import { ButtonModule } from "primeng/button";
 
 @Component({
-    standalone: true,
-    selector: 'app-assignments',
-    templateUrl: './assignments.component.html',
-    styleUrls: ['./assignments.component.css'],
-    imports: [
-        CommonModule,
-        AccordionModule,
-        TableModule,
-        MenuModule,
-        ButtonModule
-    ],
-    encapsulation: ViewEncapsulation.None
+  standalone: true,
+  selector: "app-assignments",
+  templateUrl: "./assignments.component.html",
+  styleUrls: ["./assignments.component.css"],
+  imports: [
+    CommonModule,
+    AccordionModule,
+    TableModule,
+    MenuModule,
+    ButtonModule,
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AssignmentsComponent implements OnInit {
-    assignments: GradedItem[] = [];
-    selectedAssignment!: GradedItem;
-    editModeOn:boolean = false;
-    editMenu: MenuItem[] = [
-      {
-          label: 'Edit',
-          icon: 'pi pi-pencil',
-          command: () => {
-              this.editModeOn = true;
-          }
+  assignments: GradedItem[] = [];
+  selectedAssignment!: GradedItem;
+  editModeOn: boolean = false;
+  selectedFile: string;
+  editMenu: MenuItem[] = [
+    {
+      label: "Edit",
+      icon: "pi pi-pencil",
+      command: () => {
+        this.editModeOn = true;
       },
-      {
-          label: 'Delete',
-          icon: 'pi pi-trash',
-          command: () => {
-              this.removeAssignment(this.selectedAssignment);
-          }
-      }
+    },
+    {
+      label: "Delete",
+      icon: "pi pi-trash",
+      command: () => {
+        this.removeAssignment(this.selectedAssignment);
+      },
+    },
   ];
   defaultAssignment: GradedItem = {
     id: 0,
@@ -58,8 +58,11 @@ export class AssignmentsComponent implements OnInit {
     file: null,
     timelineItems: []
   };
-    constructor(private apiService: ApiService, private router: Router) {
-    }
+  constructor(private apiService: ApiService, private router: Router) {}
+
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
     ngOnInit() {
         this.apiService.getItems(null).then(data => {
@@ -73,31 +76,40 @@ export class AssignmentsComponent implements OnInit {
         });
     }
 
-    showTasks(grade: GradedItem) {
-    console.log("filenaem is " + grade.file);
-        this.apiService.getQuestions(grade.file).then((data: any) => {
-          console.log(data);
-          //INSERT LOGIC HERE TO SET GRADE DETAILS BASED ON DATA OUTPUT DICTIONARY
-        });
-        //this.showPopup = true; <-- do what you want here
-      }
+  showTasks(gradedItem: GradedItem) {
+    console.log("filenaem is " + this.selectedFile + gradedItem.file);
+    gradedItem.file = this.selectedFile;
+    this.apiService.getTasks(gradedItem.file).then((data: any) => {
+      console.log(data);
+      gradedItem.timelineItems = JSON.parse(data["assignments"]) as AssignmentItem[];
+      //INSERT LOGIC HERE TO SET GRADE DETAILS BASED ON DATA OUTPUT DICTIONARY
+    });
+    //this.showPopup = true; <-- do what you want here
+  }
 
-    onUpload(event: FileSendEvent, ass: GradedItem) {
-        console.log("i am here" + ass.name);
-        const item = event.formData.get('demo[]')
-        if (item instanceof File){
-          ass.file = item.name;
-        }
-        console.log(ass.file);
-      }
+  onUpload(event: FileSendEvent, ass: GradedItem) {
+    console.log("i am here" + ass.name);
+    console.log(event);
+    console.log(event.formData);
+    const item = event.formData.get("demo[]");
+    if (item instanceof File) {
+      console.log(item);
+      this.selectedFile = item.name;
+    }
+    console.log("sending get");
+    // this.apiService.getTasks(ass.file).then((data: any) => {
+    //     console.log(data);
+    //     ass.timelineItems = JSON.parse(data['assignments']) as AssignmentItem[];
+    //   });
+  }
 
-    navToAssignment() {
-        this.router.navigate(['/assignments', this.selectedAssignment.id])
-    }
-    openEditMenu(event: any, menu: any) {
-      event.stopPropagation();
-      menu.toggle(event);
-    }
+  navToAssignment() {
+    this.router.navigate(["/assignments", this.selectedAssignment.id]);
+  }
+  openEditMenu(event: any, menu: any) {
+    event.stopPropagation();
+    menu.toggle(event);
+  }
 
     addAssignment() {
       // Create a copy of the default assignment

@@ -78,16 +78,9 @@ export class TestComponent implements OnInit{
 
   ngOnInit() {
     this.apiService.getGrade().subscribe((data: GradedItem) => {
-      // this.grades = data;
       console.log(data);
       this.grade = data.grade;
       this.weight = data.weight;
-      // this.name = data.name;
-      // if (data.grade != null, data.weight != null){
-
-      // }
-      // this.grade = data.grade;
-      // this.weight = data.weight;
     });
 
     this.topics = [

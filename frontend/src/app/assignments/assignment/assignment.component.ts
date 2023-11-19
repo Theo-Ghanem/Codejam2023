@@ -104,13 +104,13 @@ export class AssignmentComponent implements OnInit{
 
   ngOnInit(): void {
     this.aCourse = {id: 0, name: 'ECSE 427', finalGrade: 0, credits: 3, syllabus: null};
-    this.gradedItem = {id: 0, name: 'Assignment 1', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: this.aCourse, timelineItems: []},
+    this.gradedItem = {id: 0, name: 'Assignment 1', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob", "mathieu", "sehr"], course: this.aCourse, timelineItems: []},
     this.topics = [
-      { title: 'Topic 1', icon: 'pi pi-book', completed: false, assignees:[]},
-      { title: 'Topic 2', icon: 'pi pi-book', completed: false, assignees:[]},
-      { title: 'Topic 3', icon: 'pi pi-book', completed: false, assignees:[]},
-      { title: 'Topic 4', icon: 'pi pi-book', completed: false, assignees:[]},
-      { title: 'Add' , icon: 'pi pi-plus',  completed: true}
+      // { title: 'Topic 1', icon: 'pi pi-book', completed: false, assignees:[]},
+      // { title: 'Topic 2', icon: 'pi pi-book', completed: false, assignees:[]},
+      // { title: 'Topic 3', icon: 'pi pi-book', completed: false, assignees:[]},
+      // { title: 'Topic 4', icon: 'pi pi-book', completed: false, assignees:[]},
+      // { title: 'Add' , icon: 'pi pi-plus',  completed: true}
     ];
     this.topicsNoAdd = this.topics.filter(item => item.title!=='Add');
     this.route.params.subscribe(params => {
@@ -120,6 +120,9 @@ export class AssignmentComponent implements OnInit{
     });
   }
 
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
   addTopic(topic: AssignmentItem) {
     if (topic.title == 'Add') {
       this.topics.splice(this.topics.length - 1, 0, { title: 'Topic ' + this.topics.length, icon: 'pi pi-book', completed: false});
@@ -172,7 +175,7 @@ export class AssignmentComponent implements OnInit{
 
   updateProgress(){
     let completedTopic:number = 0;
-    for (let t of this.topics) {
+    for (let t of this.gradedItem.timelineItems) {
       if(t.completed && t.title !== 'Add'){
         completedTopic++;
       }
@@ -180,12 +183,59 @@ export class AssignmentComponent implements OnInit{
     this.topicProgress = Math.round(100 * (completedTopic/this.topicsNoAdd.length));
   }
 
-  onUpload(event: FileSendEvent) {
+  async onUpload(event: FileSendEvent, gradedItem: GradedItem) {
     const item = event.formData.get('demo[]')
+    console.log(gradedItem)
     if (item instanceof File){
-      this.gradedItem.file = item.name;
+      gradedItem.file = item.name;
     }
-    console.log("i am here" + this.gradedItem.name);
+    console.log("i am here" + gradedItem.name);
+    // await this.delay(30000);
+    console.log("sending get");
+    this.apiService.getTasks(gradedItem.file).then((data: any) => {
+        // console.log(data);
+        gradedItem.timelineItems = JSON.parse(data['assignments']) as AssignmentItem[];
+        for (let t of gradedItem.timelineItems as AssignmentItem[]){
+          console.log("in here");
+          // console.log(t.get("assignees"));
+          t = t as AssignmentItem;
+          // if (t instanceof AssignmentItem){
+            console.log("here now");
+            console.log(t.assignees);
+            for (let j of t.assignees){
+              if (gradedItem.assignees.length < 4){
+                console.log("adding assignees");
+                gradedItem.assignees.push("mathieu");
+                gradedItem.assignees.push("sehr");
+                gradedItem.assignees.push("gabby");
+              }
+              console.log("j" + j);
+              if (j == "Person 1"){
+                console.log("working")
+                const index = t.assignees.indexOf(j);
+                t.assignees[index] = gradedItem.assignees[0];
+              }
+              if (j == "Person 2"){
+                const index = t.assignees.indexOf(j);
+                t.assignees[index] = gradedItem.assignees[1];
+              }
+              if (j == "Person 3"){
+                const index = t.assignees.indexOf(j);
+                t.assignees[index] = gradedItem.assignees[2];
+              }
+              if (j == "Person 4"){
+                const index = t.assignees.indexOf(j);
+                t.assignees[index] = gradedItem.assignees[3];
+              }
+            // }
+          }
+
+
+        }
+        console.log(gradedItem.timelineItems)
+        this.topicsNoAdd = gradedItem.timelineItems;
+        //this.topics = gradedItem.timelineItems.concat() 
+      });
 
   }
 

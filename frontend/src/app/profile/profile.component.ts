@@ -12,11 +12,12 @@ import {Course} from "../model/course";
 import {lookupGPA} from "../model/gpa";
 import { GradedItem } from 'app/model/graded-item';
 import {ApiService} from "../services/api.service";
+import {TableModule} from "primeng/table";
 
 @Component({
     selector: 'app-profile',
     standalone: true,
-    imports: [CommonModule, CardModule, ButtonModule, AccordionModule, AvatarModule, DialogModule, PaginatorModule, MenuModule],
+    imports: [CommonModule, CardModule, TableModule, ButtonModule, AccordionModule, AvatarModule, DialogModule, PaginatorModule, MenuModule],
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.css'],
     encapsulation: ViewEncapsulation.None
@@ -27,6 +28,7 @@ export class ProfileComponent implements OnInit {
     courses: Course[] = [];
     gpa: number = 0;
     selectedCourse: Course = new Course();
+    selectedItem:GradedItem = new GradedItem();
     gradedItems: GradedItem[] = [];
     showPopup: boolean = false;
     editModeOn:boolean = false;
@@ -54,6 +56,16 @@ export class ProfileComponent implements OnInit {
         this.apiService.getItems(null).then((data: any) => {
             this.gradedItems = data;
         });
+    }
+
+    navToItem(){
+        // if(){
+        //     this.router.navigate(['/assignments', this.selectedAssignment.id])
+        // }
+        // else(){
+
+        // }
+        
     }
 
     addCourse() {

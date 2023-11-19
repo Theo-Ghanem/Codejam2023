@@ -38,9 +38,29 @@
         </p-accordionTab>
     </p-accordion>
 
-    <p-dialog [header]="selectedCourse.name + ' Notes'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
+    <p-dialog [header]="selectedCourse.name + ' Content'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '75vw' }" [draggable]="false" [maximizable]="true">
         <p class="m-0">
-            <textarea class="w-full" rows="10" [(ngModel)]="selectedCourse.name"></textarea>
+            <p-table [value]="gradedItems" selectionMode="single" [(selection)]="selectedItem" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }"
+                (onRowSelect)="navToItem()">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Due Date</th>
+                            <th>Weight</th>
+                            <th>Grade</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-assignment>
+                        <tr [pSelectableRow]="assignment">
+                            <td class="font-bold">{{gradedItem.name}}</td>
+                            <td>{{ gradedItem.type}}</td>
+                            <td>{{ assignment.dueDate.toDateString() }}</td>
+                            <td>{{ assignment.weight }}</td>
+                            <td>{{ assignment.grade }}%</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
         </p>
     </p-dialog>
     <p-dialog [header]="'Edit ' + selectedCourse?.name" [(visible)]="editModeOn" [modal]="true" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="false" [closable]="false">

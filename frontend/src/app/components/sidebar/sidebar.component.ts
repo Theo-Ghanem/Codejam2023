@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 declare const $: any;
 declare interface RouteInfo {
@@ -53,8 +54,13 @@ export class SidebarComponent implements OnInit {
   menuItems: any[];
   activeRoute: string = '';
 
-  constructor(private router: Router) { }
-  // constructor() { }
+  constructor(private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.setActiveRoute(event.urlAfterRedirects);
+    });
+  }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
@@ -68,6 +74,7 @@ export class SidebarComponent implements OnInit {
   };
 
   setActiveRoute(route: string): void {
+    const currentRoute = this.router.url;
     this.activeRoute = route;
   }
 

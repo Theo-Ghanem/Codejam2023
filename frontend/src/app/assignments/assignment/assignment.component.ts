@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgIf, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
+import { FileSendEvent, FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -18,6 +18,7 @@ import { InplaceModule } from 'primeng/inplace';
 import { AssignmentItem } from '../../model/assignment-topic';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
+import { GradedItem } from 'app/model/graded-item';
 
 
 @Component({
@@ -65,6 +66,7 @@ export class AssignmentComponent implements OnInit{
   selectedTopic: AssignmentItem = new AssignmentItem();
   title:string = "Title";
   showInput:boolean = false;
+  isLoading = false;
   editMenu: MenuItem[] = [
     {
         label: 'Edit',
@@ -153,8 +155,17 @@ export class AssignmentComponent implements OnInit{
     this.topicProgress = Math.round(100 * (completedTopic/this.topicsNoAdd.length));
   }
 
-  onUpload(event: FileUploadHandlerEvent) {
-
+  onUpload(event: FileSendEvent, gradedItem: GradedItem) {
+    // console.log("i am here" + gradedItem.title);
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 3000); // 3000ms delay
+    const item = event.formData.get('demo[]')
+    if (item instanceof File){
+      gradedItem.file = item.name;
+    }
+    console.log(gradedItem.file);
   }
 
   onSubmit(valueString: any){

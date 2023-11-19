@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AccordionModule} from "primeng/accordion";
 import {SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
@@ -14,7 +14,8 @@ import {GradedItem} from "../model/graded-item";
         SharedModule,
         TableModule
     ],
-    styleUrls: ['./tests.component.css']
+    styleUrls: ['./tests.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
 export class TestsComponent implements OnInit {
     tests: GradedItem[] = [];

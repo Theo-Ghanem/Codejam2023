@@ -21,12 +21,12 @@
     </p-accordionTab>
      <p-accordionTab header="Assignment Timeline">
        <div class="mt-4">
-         <div class="uploadImage" *ngIf="!showProgress">
+         <div class="uploadImage" *ngIf="showProgress">
            <p-fileUpload class="w-full" mode="basic" allow-types="*.pdf" name = "demo[]" chooseLabel="Upload a File" url="http://127.0.0.1:5000/assignment"
                               [maxFileSize]="100000000" [fileLimit]="1"
                              (onSend)="onUpload($event)" [auto]="true"></p-fileUpload>
          </div>
-         <div class="uploadImage" *ngIf="showProgress">
+         <div class="uploadImage" *ngIf="!showProgress">
            <p>Progress</p>
            <p-progressBar [value]="topicProgress"></p-progressBar>
          </div>
@@ -71,6 +71,7 @@
         </div>
       </p-accordionTab>
    </p-accordion>
+   <!-- TODO -->
    <p-dialog [header]="selectedTopic?.title + ' Notes'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
      <p class="m-0">
        <textarea class="w-full" rows="10" [(ngModel)]="selectedTopic.notes"></textarea>

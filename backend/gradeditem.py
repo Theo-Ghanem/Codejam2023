@@ -1,4 +1,7 @@
-class GradedItem :
+import json
+
+
+class GradedItem(object):
 
     def __init__(self, id, name, type, dueDate, weight, grade, file, assignees, course, timelineItems):
         self.id = id
@@ -12,3 +15,7 @@ class GradedItem :
         self.course = course
         self.timelineItems = timelineItems
 
+
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)

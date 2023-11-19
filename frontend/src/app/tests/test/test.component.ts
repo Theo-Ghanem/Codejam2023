@@ -18,11 +18,14 @@ import { MenuItem } from 'primeng/api/menuitem';
 import { MenuModule } from 'primeng/menu';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import { ActivatedRoute, Route } from '@angular/router';
+import { ScrollerModule } from 'primeng/scroller';
+import { CalendarModule } from 'primeng/calendar';
+
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, NgFor, FormsModule, MenuModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule, ProgressSpinnerModule],
+  imports: [CommonModule, FileUploadModule, CardModule, CalendarModule, TimelineModule, NgFor, FormsModule, MenuModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule, ProgressSpinnerModule],
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css'],
   encapsulation: ViewEncapsulation.None,
@@ -138,6 +141,10 @@ export class TestComponent implements OnInit{
   }
 
   saveGrade() {
+
+  }
+
+  saveInfo(){
 
   }
   

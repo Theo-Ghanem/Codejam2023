@@ -109,17 +109,27 @@ export class NavbarComponent implements OnInit {
         }
     };
 
-    getTitle(){
-      var titlee = this.location.prepareExternalUrl(this.location.path());
-      if(titlee.charAt(0) === '#'){
-          titlee = titlee.slice( 1 );
-      }
+    getTitle() {
+  let titlee = this.location.prepareExternalUrl(this.location.path());
+  if (titlee.charAt(0) === '#') {
+    titlee = titlee.slice(1);
+  }
 
-      for(var item = 0; item < this.listTitles.length; item++){
-          if(this.listTitles[item].path === titlee){
-              return this.listTitles[item].title;
-          }
-      }
-      return 'Dashboard';
+  for (let item = 0; item < this.listTitles.length; item++) {
+    if (this.listTitles[item].path === titlee) {
+      return this.listTitles[item].title;
     }
+
+    // Check subroutes if they exist
+    if (this.listTitles[item].subRoutes) {
+      for (let subItem = 0; subItem < this.listTitles[item].subRoutes.length; subItem++) {
+        if (this.listTitles[item].subRoutes[subItem].path === titlee) {
+          return this.listTitles[item].subRoutes[subItem].title;
+        }
+      }
+    }
+  }
+
+  return 'test';
+}
 }

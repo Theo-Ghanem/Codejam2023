@@ -1,5 +1,5 @@
 <div class="logo">
-    <a href="https://devpost.com/software/productivity-boost" class="simple-text">
+    <a routerLink="/" class="simple-text">
         <div class="logo-img">
             <img src="/assets/img/logo-clean.png"/>
         </div>
@@ -19,71 +19,29 @@
         </div>
       </span>
     </form>
-    <ul class="nav navbar-nav nav-mobile-menu">
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#testsSubmenu" role="button" aria-expanded="false" aria-controls="testsSubmenu">
-                <i class="material-icons">library_books</i>
-                <p>Tests</p>
-            </a>
-            <div class="collapse" id="testsSubmenu">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <!-- <a class="nav-link" routerLink="/tests/1">Test 1</a> -->
-                    </li>
-                    <li class="nav-item">
-                        <!-- <a class="nav-link" routerLink="/tests/2">Test 2</a> -->
-                    </li>
-                    <!-- Add more subroutes as needed -->
-                </ul>
-            </div>
-        </li>
-        <!-- <li class="nav-item dropdown">
-            <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="material-icons">notifications</i>
-                <span class="notification">5</span>
-                <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                </p>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Upload your new assignments</a>
-                <a class="dropdown-item" href="#">Input your grades</a>
-                <a class="dropdown-item" href="#">Take a look at your projected GPA</a>
-                <a class="dropdown-item" href="#">Got new ideas, reach out!</a>
-                <a class="dropdown-item" href="#">Vote for us for codejam!</a>
-            </div>
-        </li> -->
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)">
-                <i class="material-icons">person</i>
-                <p>
-                    <span class="d-lg-none d-md-block">Profile</span>
-                </p>
-            </a>
-        </li>
-    </ul>
+    
 <!-- End of mobile menu -->
 <!-- Start of large view -->
-  </div> 
-  <ul class="nav">
-    <li *ngFor="let route of ROUTES" class="nav-item" [ngClass]="route.class" [class.active]="activeRoute === route.path">
-        <a *ngIf="!route.subRoutes; else subRoutesTemplate" class="nav-link" [routerLink]="[route.path]" (click)="setActiveRoute(route.path)">
-            <i class="material-icons">{{route.icon}}</i>
-            <p>{{route.title}}</p>
-        </a>
-        <ng-template #subRoutesTemplate>
-            <a class="nav-link" data-toggle="collapse" href="#{{route.title}}Submenu" role="button" aria-expanded="false" aria-controls="{{route.title}}Submenu">
-                <i class="material-icons">{{route.icon}}</i>
-                <p>{{route.title}}</p>
-            </a>
-            <div class="collapse" id="{{route.title}}Submenu">
-                <ul class="nav flex-column">
-                    <li *ngFor="let subRoute of route.subRoutes" class="nav-item">
-                        <a class="nav-link" [routerLink]="[subRoute.path]">{{subRoute.title}}</a>
-                    </li>
-                </ul>
-            </div>
-        </ng-template>
-    </li>
+</div> 
+<ul class="nav">
+  <li *ngFor="let route of menuItems" class="nav-item" [ngClass]="route.class" [class.active]="isActive(route.path)">
+      <a *ngIf="!route.subRoutes; else subRoutesTemplate" class="nav-link" [routerLink]="[route.path]">
+          <i class="material-icons">{{route.icon}}</i>
+          <p>{{route.title}}</p>
+      </a>
+      <ng-template #subRoutesTemplate>
+          <a class="nav-link" [routerLink]="[route.path]" (click)="navigateAndToggle(route)" [class.active]="isActive(route.path)">
+              <i class="material-icons">{{route.icon}}</i>
+              <p>{{route.title}}</p>
+          </a>
+          <div class="collapse" [class.show]="route.isExpanded" id="{{route.title}}Submenu">
+              <ul class="nav flex-column">
+                  <li *ngFor="let subRoute of route.subRoutes" class="nav-item">
+                      <a class="nav-link" [routerLink]="[subRoute.path]" [class.active]="isActive(subRoute.path)">{{subRoute.title}}</a>
+                  </li>
+              </ul>
+          </div>
+      </ng-template>
+  </li>
 </ul>
 </div>

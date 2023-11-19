@@ -1,28 +1,30 @@
-<div class="titleSection">
-    <!-- Adding title field -->
-    <div>
-      <ng-template [ngIf]="!showInput">
-          <p (dblclick)="showTitleInput()" style="padding-left:10mm">
-              {{title}}
-          </p>
-      </ng-template>
-      <ng-template [ngIf]="showInput">
-          <form #f="ngForm" (keyup.enter)="onSubmit($event)">
-              <input type="text" pInputText [(ngModel)]="title" style="padding: 5%; font-size:xx-large; margin:5%; ">
-          </form>
-      </ng-template>
-    </div>
-     <button pButton icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true"></button>
-    <!-- Adding other collaborators field -->
- </div>
  <div>
    <p-accordion [multiple]="true" [activeIndex]="[0, 1]">
+    <p-accordionTab header="Info">
+      <div class="titleSection">
+        <!-- Adding title field -->
+        <div>
+          <ng-template [ngIf]="!showInput">
+              <p (dblclick)="showTitleInput()" style="padding-left:10mm">
+                  {{title}}
+              </p>
+          </ng-template>
+          <ng-template [ngIf]="showInput">
+              <form #f="ngForm" (keyup.enter)="onSubmit($event)">
+                  <input type="text" pInputText [(ngModel)]="title" style="padding: 5%; font-size:xx-large; margin:5%; ">
+              </form>
+          </ng-template>
+        </div>
+         <button pButton icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true"></button>
+        <!-- Adding other collaborators field -->
+     </div>
+    </p-accordionTab>
      <p-accordionTab header="Assignment Timeline">
        <div class="mt-4">
          <div class="uploadImage" *ngIf="!showProgress">
-           <p-fileUpload class="w-full" mode="basic" chooseLabel="Upload a File" 
-                             [customUpload]="true" accept="image/*" [maxFileSize]="1000000" [fileLimit]="1"
-                             (uploadHandler)="onUpload($event)" [auto]="true"></p-fileUpload>
+           <p-fileUpload class="w-full" mode="basic" allow-types="*.pdf" name = "demo[]" chooseLabel="Upload a File" url="http://127.0.0.1:5000/assignment"
+                              [maxFileSize]="100000000" [fileLimit]="1"
+                             (onSend)="onUpload($event)" [auto]="true"></p-fileUpload>
          </div>
          <div class="uploadImage" *ngIf="showProgress">
            <p>Progress</p>
@@ -30,16 +32,17 @@
          </div>
          <p-timeline [@timelineAnimation]="topics.length" *ngIf="showProgress" [value]="topics" align="alternate" styleClass="customized-timeline">
            <ng-template pTemplate="marker" let-topic>
-           <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
-               <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
-           </span>
+            <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
+                <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
+            </span>
            </ng-template>
            <ng-template pTemplate="content" let-topic>
              <p-card *ngIf="topic.title !== 'Add'">
                <ng-template pTemplate="header">
                  <div class="flex flex-grow-1 align-content-center justify-content-between p-2 px-3">
-                   <h2  class="m-0">{{topic.title}}</h2>
-                   <i class="x-button py-2 pi pi-times" (click)="removeTopic(topic)"></i>
+                   <h2 class="m-0">{{topic.title}}</h2>
+                   <p-menu class="relative top-0" #menu [model]="editMenu" [popup]="true" appendTo="body"></p-menu>
+                   <i class="x-button p-2 pi pi-ellipsis-h" (click)="selectedTopic = topic; openEditMenu($event, menu)"></i>
                  </div>
                </ng-template>
                <div *ngIf="!topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
@@ -80,10 +83,16 @@
         <button pButton label="Remove" class="p-button-text p-1" (click)="removeAssignee()"></button>
       </p>
    </p-dialog>
+   <p-dialog [header]="'Edit ' + selectedTopic?.title" [(visible)]="editModeOn" [modal]="true" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="false" [closable]="false">
+    <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2"> 
+      <input pInputText [(ngModel)]="selectedTopic.title"/>
+      <button pButton label="Close" class="p-button-text p-1" (click)="editModeOn = false"></button>
+    </p>
+ </p-dialog>
    <p-dialog [header]="'Add Assignee'" [(visible)]="showAddAssignees" [modal]="true" [style]="{ width: '50vw', height: '15vw', overflow:'visible'}" [draggable]="false" [maximizable]="true">
      <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2">
        <input pInputText [(ngModel)]="newAssignee"/>
-       <p-dropdown appendTo="body" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topics" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
+       <p-dropdown appendTo="body" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topicsNoAdd" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
        <button pButton label="Add" class="p-button-text p-1" (click)="addAssignee()"></button>
      </p>
    </p-dialog>

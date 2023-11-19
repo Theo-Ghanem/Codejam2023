@@ -1,7 +1,8 @@
 export class TopicItem {
   title?: string;
   icon?: string;
-  file?: File;
+  file?: string;
+  quiz?: string;
   completed?: boolean;
-  notes?: string;
+  notes?: string[];
 }

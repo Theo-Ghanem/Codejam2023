@@ -3,5 +3,5 @@ export class AssignmentItem {
     icon?: string;
     completed?: boolean;
     notes?: string;
-    assignees?:any[];
+    assignees?:string[];
   }

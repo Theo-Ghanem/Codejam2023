@@ -13,13 +13,14 @@
               <ng-template pTemplate="header">
                 <div class="flex flex-grow-1 align-content-center justify-content-between p-2 px-3">
                   <h2  class="m-0">{{topic.title}}</h2>
-                  <i class="x-button py-2 pi pi-times" (click)="removeTopic(topic)"></i>
+                  <p-menu class="relative top-0" #menu [model]="editMenu" [popup]="true" appendTo="body"></p-menu>
+                  <i class="x-button p-2 pi pi-ellipsis-h" (click)="selectedTopic = topic; openEditMenu($event, menu)"></i>
                 </div>
               </ng-template>
               <p-fileUpload *ngIf="!topic.file" class="w-full" mode="basic" chooseLabel="Choose" name="demo[]"
-                            [customUpload]="true" accept="image/*" [maxFileSize]="1000000" [fileLimit]="1"
-                            (uploadHandler)="onUpload($event)" [auto]="true"></p-fileUpload>
-              <div *ngIf="!topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
+                            allow-types="*.pdf" [maxFileSize]="1000000000" url="http://127.0.0.1:5000/topic" [fileLimit]="1"
+                            (onSend)="onUpload($event, topic)" [auto]="true"></p-fileUpload>
+              <div *ngIf="topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
                 <button pButton label="Notes" class="p-button-text p-1" (click)="showNotes(topic)"></button>
                 <p-checkbox [(ngModel)]="topic.completed" [binary]="true" inputId="binary"></p-checkbox>
               </div>
@@ -42,10 +43,13 @@
       </div>
     </p-accordionTab>
   </p-accordion>
-
-  <p-dialog [header]="selectedTopic.title + ' Notes'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
-    <p class="m-0">
-      <textarea class="w-full" rows="10" [(ngModel)]="selectedTopic.notes"></textarea>
+  <p-dialog [header]="'Edit ' + selectedTopic?.title" [(visible)]="editModeOn" [modal]="true" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="false" [closable]="false">
+    <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2"> 
+      <input pInputText [(ngModel)]="selectedTopic.title"/>
+      <button pButton label="Close" class="p-button-text p-1" (click)="editModeOn = false"></button>
     </p>
+  </p-dialog>
+  <p-dialog [header]="selectedTopic.title + ' Notes'" [(visible)]="showPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [maximizable]="true">
+    <p class="mx-0 my-2" *ngFor="let note of selectedTopic.notes">{{note}}</p>
   </p-dialog>
 </div>

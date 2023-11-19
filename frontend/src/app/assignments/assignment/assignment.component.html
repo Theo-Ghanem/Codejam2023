@@ -1,22 +1,24 @@
-<div class="titleSection">
-    <!-- Adding title field -->
-    <div>
-      <ng-template [ngIf]="!showInput">
-          <p (dblclick)="showTitleInput()" style="padding-left:10mm">
-              {{title}}
-          </p>
-      </ng-template>
-      <ng-template [ngIf]="showInput">
-          <form #f="ngForm" (keyup.enter)="onSubmit($event)">
-              <input type="text" pInputText [(ngModel)]="title" style="padding: 5%; font-size:xx-large; margin:5%; ">
-          </form>
-      </ng-template>
-    </div>
-     <button pButton icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true"></button>
-    <!-- Adding other collaborators field -->
- </div>
  <div>
    <p-accordion [multiple]="true" [activeIndex]="[0, 1]">
+    <p-accordionTab header="Info">
+      <div class="titleSection">
+        <!-- Adding title field -->
+        <div>
+          <ng-template [ngIf]="!showInput">
+              <p (dblclick)="showTitleInput()" style="padding-left:10mm">
+                  {{title}}
+              </p>
+          </ng-template>
+          <ng-template [ngIf]="showInput">
+              <form #f="ngForm" (keyup.enter)="onSubmit($event)">
+                  <input type="text" pInputText [(ngModel)]="title" style="padding: 5%; font-size:xx-large; margin:5%; ">
+              </form>
+          </ng-template>
+        </div>
+         <button pButton icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true"></button>
+        <!-- Adding other collaborators field -->
+     </div>
+    </p-accordionTab>
      <p-accordionTab header="Assignment Timeline">
        <div class="mt-4">
          <div class="uploadImage" *ngIf="!showProgress">

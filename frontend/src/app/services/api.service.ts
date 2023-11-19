@@ -76,9 +76,9 @@ export class ApiService {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(data),
+      }
     });
+    console.log(response);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

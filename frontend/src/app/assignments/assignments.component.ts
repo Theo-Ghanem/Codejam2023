@@ -48,12 +48,13 @@ export class AssignmentsComponent implements OnInit {
   ];
   defaultAssignment: GradedItem = {
     id: 0,
-    name: 'Default Assignment',
+    name: 'New Assignment',
     type: 'assignments',
     dueDate: new Date(),
     weight: 0,
     grade: 0,
     assignees: [],
+    course: null,
     file: null,
     timelineItems: []
   };
@@ -61,16 +62,15 @@ export class AssignmentsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.assignments = [
-            {id: 0, name: 'Assignment 1', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []},
-            {id: 1, name: 'Assignment 2', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []},
-            {id: 2, name: 'Assignment 3', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []},
-            {id: 3, name: 'Assignment 4', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []},
-            {id: 4, name: 'Assignment 5', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []},
-            {id: 5, name: 'Assignment 6', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []},
-            {id: 6, name: 'Assignment 7', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []},
-            {id: 7, name: 'Assignment 8', type: 'assignments', dueDate: new Date(2021, 3, 1), weight: 10, grade: 100, file: "", assignees : ["math", "bob"], course: null, timelineItems: []}
-        ];
+        this.apiService.getItems(null).then(data => {
+            let array: GradedItem[] = [];
+            // iterate through object entries of data.items
+            for (let [key, value] of Object.entries(data.items)) {
+                let v = value as string;
+                array.push(JSON.parse(v) as GradedItem)
+            }
+            this.assignments = array.filter(a => a.type === 'assignments');
+        });
     }
 
     showTasks(grade: GradedItem) {

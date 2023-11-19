@@ -1,46 +1,57 @@
- <div>
-   <p-accordion [multiple]="true" [activeIndex]="[0, 1, 2]">
+<div>
+  <p-accordion [multiple]="true" [activeIndex]="[0, 1, 2]">
     <p-accordionTab header="Info">
       <div class="titleSection formgrid grid m-0 p-0 mt-4" style="margin: 5%;">
         <!-- Adding title field -->
         <div class="field col flex flex-grow-1" style="margin-right: 5%; flex-direction: column;">
           <div class="flex flex-col align-content-center justify-content-start align-items-center" style="flex: 1;">
-            <ng-template [ngIf]="!showInput">
-                <p (dblclick)="showTitleInput()" style="padding-left:10mm" class="m-0 p-0">
-                    {{gradedItem.name}}
-                </p>
-            </ng-template>
-            <ng-template [ngIf]="showInput">
-                <form #f="ngForm" (keyup.enter)="onSubmit($event)">
-                    <input type="text" pInputText [(ngModel)]="gradedItem.name" style="padding: 5%; margin:5%; ">
-                </form>
-            </ng-template>
-          </div> 
-          <div class="flex flex-col align-content-center justify-content-start" style="flex: 1; align-items:center">
-            Course Name: {{gradedItem.course.name}}
+            <span class="p-float-label flex flex-grow-1 m-4">
+              <input class=" w-full" pInputText id="name" [(ngModel)]="gradedItem.name" />
+              <label htmlFor="name">Name</label>
+            </span>
           </div>
           <div class="flex flex-col align-content-center justify-content-start" style="flex: 1; align-items:center">
-            <label>Due Date</label>
-            <p-calendar [(ngModel)]="gradedItem.dueDate" style="overflow: visible;" [showIcon]="true" appendTo="body"></p-calendar>
-            <!-- Due Date: {{gradedItem.dueDate.toDateString()}} -->
+            <span class="p-float-label flex flex-grow-1 m-4">
+              <input class=" w-full" pInputText id="course" [(ngModel)]="grade" />
+              <label htmlFor="course">Course</label>
+            </span>
+          </div>
+          <div class="flex flex-col flex-grow-1 align-content-center justify-content-start"
+            style="flex: 1; align-items:center">
+            <span class="p-float-label flex flex-grow-1 m-4">
+              <p-calendar class="flex flex-grow-1" id="dueDate" [(ngModel)]="gradedItem.dueDate"
+                style="overflow: visible;" [showIcon]="true" appendTo="body"></p-calendar>
+              <label htmlFor="dueDate">Due Date</label>
+            </span>
           </div>
         </div>
         <div class="field col" style="margin-right: 5%;">
-          <div style="align-content: end; display:flex; justify-content:end">
-            <button pButton icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true" style="background-color: aliceblue"></button>
-          </div>
-          <div>
-            <span class="font-bold block mb-2">Assignees</span>
-            <p-scroller [items]="gradedItem?.assignees" [itemSize]="50" scrollHeight="200px" styleClass="border-1 surface-border">
+          <div style="align-content: end; display:flex; flex-direction: column; justify-content: flex-start;">
+        
+            <!-- Assignees on the left -->
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span class="font-bold block mb-2">Assignees</span>
+              <div style="align-content: end; display:flex; justify-content:end">
+                <p-button icon="pi pi-user-plus" class="p-button-text p-1" (click)="showAddAssignees = true"
+                          style="background-color: aliceblue"></p-button>
+              </div>
+            </div>
+        
+            <!-- p-scroller -->
+            <p-scroller [items]="gradedItem?.assignees" [itemSize]="50"
+                        [scrollHeight]="gradedItem?.assignees?.length * 100 + 'px'" styleClass="border-1 surface-border">
               <ng-template pTemplate="item" let-item let-options="options">
-                  <div class="flex align-items-center p-2"  style="height: 50px;">{{ item }}</div>
+                <div class="flex align-items-center p-2" style="height: 50px;">{{ item }}</div>
               </ng-template>
-          </p-scroller>
+            </p-scroller>
           </div>
         </div>
 
         <!-- Adding other collaborators field -->
-     </div>
+      </div>
+      <button pButton label="Save" (click)="saveInfo()" class="p-button-text p-1"
+          style="background-color: aliceblue; border-radius:10%; width:100px; position: absolute; right: 10px; bottom: 10px;"></button>
+
     </p-accordionTab>
      <p-accordionTab header="Assignment Timeline">
        <!-- <div class="mt-4"> -->
@@ -112,15 +123,17 @@
    </p-dialog>
    <p-dialog [header]="'Edit ' + selectedTopic?.title" [(visible)]="editModeOn" [modal]="true" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="false" [closable]="false">
     <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2">
-      <input pInputText [(ngModel)]="selectedTopic.title"/>
+      <input pInputText [(ngModel)]="selectedTopic.title" />
       <button pButton label="Close" class="p-button-text p-1" (click)="editModeOn = false"></button>
     </p>
- </p-dialog>
-   <p-dialog [header]="'Add Assignee'" [(visible)]="showAddAssignees" [modal]="true" [style]="{ width: '50vw', height: '15vw', overflow:'visible'}" [draggable]="false" [maximizable]="true">
-     <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2">
-       <input pInputText [(ngModel)]="newAssignee"/>
-       <p-dropdown appendTo="body" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topicsNoAdd" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
-       <button pButton label="Add" class="p-button-text p-1" (click)="addAssignee()"></button>
-     </p>
-   </p-dialog>
- </div>
+  </p-dialog>
+  <p-dialog [header]="'Add Assignee'" [(visible)]="showAddAssignees" [modal]="true"
+    [style]="{ width: '50vw', height: '15vw', overflow:'visible'}" [draggable]="false" [maximizable]="true">
+    <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2">
+      <input pInputText [(ngModel)]="newAssignee" />
+      <p-dropdown appendTo="body" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topicsNoAdd"
+        optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
+      <button pButton label="Add" class="p-button-text p-1" (click)="addAssignee()"></button>
+    </p>
+  </p-dialog>
+</div>

@@ -46,112 +46,35 @@ export class AssignmentsComponent implements OnInit {
       },
     },
   ];
+  defaultAssignment: GradedItem = {
+    id: 0,
+    name: 'New Assignment',
+    type: 'assignments',
+    dueDate: new Date(),
+    weight: 0,
+    grade: 0,
+    assignees: [],
+    course: null,
+    file: null,
+    timelineItems: []
+  };
   constructor(private apiService: ApiService, private router: Router) {}
 
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  ngOnInit() {
-    this.assignments = [
-      {
-        id: 0,
-        name: "Assignment 1",
-        type: "assignments",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: "",
-        assignees: ["math", "bob"],
-        course: null,
-        timelineItems: [],
-      },
-      {
-        id: 1,
-        name: "Assignment 2",
-        type: "assignments",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: "",
-        assignees: ["math", "bob"],
-        course: null,
-        timelineItems: [],
-      },
-      {
-        id: 2,
-        name: "Assignment 3",
-        type: "assignments",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: "",
-        assignees: ["math", "bob"],
-        course: null,
-        timelineItems: [],
-      },
-      {
-        id: 3,
-        name: "Assignment 4",
-        type: "assignments",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: "",
-        assignees: ["math", "bob"],
-        course: null,
-        timelineItems: [],
-      },
-      {
-        id: 4,
-        name: "Assignment 5",
-        type: "assignments",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: "",
-        assignees: ["math", "bob"],
-        course: null,
-        timelineItems: [],
-      },
-      {
-        id: 5,
-        name: "Assignment 6",
-        type: "assignments",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: "",
-        assignees: ["math", "bob"],
-        course: null,
-        timelineItems: [],
-      },
-      {
-        id: 6,
-        name: "Assignment 7",
-        type: "assignments",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: "",
-        assignees: ["math", "bob"],
-        course: null,
-        timelineItems: [],
-      },
-      {
-        id: 7,
-        name: "Assignment 8",
-        type: "assignments",
-        dueDate: new Date(2021, 3, 1),
-        weight: 10,
-        grade: 100,
-        file: "",
-        assignees: ["math", "bob"],
-        course: null,
-        timelineItems: [],
-      },
-    ];
-  }
+    ngOnInit() {
+        this.apiService.getItems(null).then(data => {
+            let array: GradedItem[] = [];
+            // iterate through object entries of data.items
+            for (let [key, value] of Object.entries(data.items)) {
+                let v = value as string;
+                array.push(JSON.parse(v) as GradedItem)
+            }
+            this.assignments = array.filter(a => a.type === 'assignments');
+        });
+    }
 
   showTasks(gradedItem: GradedItem) {
     console.log("filenaem is " + this.selectedFile + gradedItem.file);
@@ -188,26 +111,37 @@ export class AssignmentsComponent implements OnInit {
     menu.toggle(event);
   }
 
-  addAssignment(assignment: GradedItem) {
-    this.apiService.createItem(assignment).then((newAssignment) => {
-      this.assignments.push(newAssignment);
-    });
-  }
-
-  removeAssignment(assignment: GradedItem) {
-    this.apiService.deleteItem(assignment.id).then(() => {
-      this.assignments = this.assignments.filter((a) => a.id !== assignment.id);
-    });
-  }
-
-  editAssignment(assignment: GradedItem) {
-    this.apiService.update(assignment).then((updatedAssignment) => {
-      const index = this.assignments.findIndex(
-        (a) => a.id === updatedAssignment.id
-      );
-      if (index !== -1) {
-        this.assignments[index] = updatedAssignment;
+    addAssignment() {
+      // Create a copy of the default assignment
+      let newAssignment = { ...this.defaultAssignment };
+      
+      // Generate a unique id for the new assignment
+      newAssignment.id = this.assignments.length > 0 ? Math.max(...this.assignments.map(a => a.id)) + 1 : 1;
+      
+      this.apiService.createItem(newAssignment).then(assignment => {
+        this.assignments.push(assignment.addedItem);
+        this.router.navigate(['/assignments', newAssignment.id]);
       }
-    });
-  }
+      );
+     
+    }
+    
+    removeAssignment(assignment: GradedItem) {
+      this.apiService.deleteItem(assignment.id).then(() => {
+        this.assignments = this.assignments.filter(a => a.id !== assignment.id);
+      });
+
+    }
+    
+    editAssignment(assignment: GradedItem) {
+      this.apiService.update(assignment).then(updatedAssignment => {
+        const index = this.assignments.findIndex(a => a.id === updatedAssignment.id);
+        if (index !== -1) {
+          this.assignments[index] = updatedAssignment;
+        }
+      });
+    }
+
+
+
 }

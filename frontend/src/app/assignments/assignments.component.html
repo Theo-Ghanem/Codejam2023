@@ -2,6 +2,7 @@
     <p-accordion [activeIndex]="0">
         <p-accordionTab header="Assignments">
             <div class="mt-4" selectionMode="single">
+                <button pButton label="Add" (click)="addAssignment()" class="p-button-text p-1" style="background-color: aliceblue; border-radius:10%; width:100px; margin-bottom: 10px;"></button>                
                 <p-table [value]="assignments" selectionMode="single" [(selection)]="selectedAssignment" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }"
                 (onRowSelect)="navToAssignment()">
                     <ng-template pTemplate="header">

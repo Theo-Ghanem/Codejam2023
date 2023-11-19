@@ -21,6 +21,7 @@ import { MenuModule } from 'primeng/menu';
 import { GradedItem } from 'app/model/graded-item';
 import { Course } from 'app/model/course';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'app/services/api.service';
 
 
@@ -44,7 +45,8 @@ import { ApiService } from 'app/services/api.service';
     ButtonModule,
     CheckboxModule,
     DialogModule,
-    CalendarModule, ProgressSpinnerModule
+    CalendarModule,
+    ProgressSpinnerModule
   ],
   templateUrl: './assignment.component.html',
   styleUrls: ['./assignment.component.css'],
@@ -96,7 +98,9 @@ export class AssignmentComponent implements OnInit{
         }
     }
 ];
-  constructor(private apiService: ApiService) {}
+  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+
+
 
   ngOnInit(): void {
     this.aCourse = {id: 0, name: 'ECSE 427', finalGrade: 0, credits: 3, syllabus: null};
@@ -108,7 +112,12 @@ export class AssignmentComponent implements OnInit{
       // { title: 'Topic 4', icon: 'pi pi-book', completed: false, assignees:[]},
       // { title: 'Add' , icon: 'pi pi-plus',  completed: true}
     ];
-    //this.topicsNoAdd = this.topics.filter(item => item.title!=='Add');
+    this.topicsNoAdd = this.topics.filter(item => item.title!=='Add');
+    this.route.params.subscribe(params => {
+         this.apiService.getItems(null).then((data: any) => {
+          this.gradedItem = data.find((item: any) => item.id == params.id);
+      });
+    });
   }
 
   delay(ms: number) {
@@ -243,5 +252,17 @@ export class AssignmentComponent implements OnInit{
 
   saveGrade(){
 
+  }
+
+  saveInfo(){
+    this.editModeOn = false;
+    this.gradedItem.name = this.title;
+    this.gradedItem.weight = this.weight;
+    // this.apiService.update(this.gradedItem).then(updatedAssignment => {
+    //   const index = this.topics.findIndex(a => a.id === updatedAssignment.id);
+    //   if (index !== -1) {
+    //     this.topics[index] = updatedAssignment;
+    //   }
+    // });
   }
 }

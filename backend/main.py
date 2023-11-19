@@ -1,3 +1,4 @@
+import json
 import os
 import time
 from gradeditem import GradedItem
@@ -37,19 +38,28 @@ client.models.list()
 @cross_origin()
 def gradedItems():
     if request.method == 'GET':
-        return jsonify({'ok': 'True', 'items': graded_items})
+        json_dict = {}
+        for key, value in graded_items.items():
+            json_dict[key] = value.toJSON()
+        print(json_dict)
+        return jsonify({'ok': 'True', 'items': json_dict})
     if request.method == 'POST':
-        print("json is" + request.get_json())
-        new_item = GradedItem(request.id, request.name, request.type, request.dueDate, request.weight, request.grade, request.file, request.assignees, request.course, request.timelineItems)
-        graded_items[request.id] = new_item
-        return jsonify({'ok': 'True', 'addedItem': new_item})
+        print(request.data)
+        real_data = json.loads(request.data)
+
+        new_item = GradedItem(real_data['id'], real_data['name'], real_data['type'], real_data['dueDate'], real_data['weight'], real_data['grade'], real_data['file'], real_data['assignees'], real_data['course'], real_data['timelineItems'])
+        graded_items[real_data['id']] = new_item
+        print(new_item.toJSON())
+        return jsonify({'ok': 'True', 'addedItem': new_item.toJSON()})
     if request.method == 'DELETE':
-        del graded_items[request.id]
+        real_data = json.loads(request.data)
+        del graded_items[real_data['id']]
         return jsonify({'ok': 'True', 'items': graded_items})
     if request.method == 'PUT':
-        new_item = GradedItem(request.id, request.name, request.type, request.dueDate, request.weight, request.grade, request.file, request.assignees, request.course, request.timelineItems)
-        graded_items[request.id] = new_item
-        return jsonify({'ok': 'True', 'updatedItem': new_item})
+        real_data = json.loads(request.data)
+        new_item = GradedItem(real_data['id'], real_data['name'], real_data['type'], real_data['dueDate'], real_data['weight'], real_data['grade'], real_data['file'], real_data['assignees'], real_data['course'], real_data['timelineItems'])
+        graded_items[real_data['id']] = new_item
+        return jsonify({'ok': 'True', 'updatedItem': new_item.toJSON()})
 
 
 
@@ -104,7 +114,7 @@ def assignment():
         return jsonify({'ok': 'True'})
     
     if request.method == 'PUT':
-        print("json is" + request.get_json())
+        print("json was" + request.get_json())
         name = request.get_json().split('.')[0]
         items = assignments[name]
         print("aDone2")

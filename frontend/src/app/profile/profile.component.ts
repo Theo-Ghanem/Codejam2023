@@ -62,6 +62,7 @@ export class ProfileComponent {
     }
 
     openEditMenu(event: any, menu: any) {
+        console.log("entered");
         event.stopPropagation();
         menu.toggle(event);
     }

@@ -27,9 +27,8 @@
                         <ng-template pTemplate="content" class="p-0">
                             <div class="flex flex-row justify-content-between">
                                 <h2 class="m-0 p-0">{{course.name}}</h2>
-                                <p-menu class="relative top-0" #menu [model]="editMenu" [popup]="true"></p-menu>
+                                <p-menu class="relative top-0" #menu [model]="editMenu" appendTo="body" [popup]="true"></p-menu>
                                 <i class="x-button p-2 pi pi-ellipsis-h" (click)="openEditMenu($event, menu)"></i>
-
                             </div>
                             <p>Projected Grade: {{course.finalGrade}}%</p>
                         </ng-template>

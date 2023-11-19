@@ -12,11 +12,13 @@ import {CheckboxModule} from "primeng/checkbox";
 import {DialogModule} from "primeng/dialog";
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
 import { TopicItem } from 'app/model/topic-item';
+import { MenuItem } from 'primeng/api';
+import { MenuModule } from 'primeng/menu';
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [CommonModule, FileUploadModule, CardModule, TimelineModule, FormsModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
+  imports: [CommonModule, FileUploadModule, MenuModule, CardModule, TimelineModule, FormsModule, InputTextModule, DividerModule, AccordionModule, ButtonModule, CheckboxModule, DialogModule],
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css'],
   encapsulation: ViewEncapsulation.None,
@@ -39,7 +41,25 @@ export class TestComponent implements OnInit{
   completedColor: string = '#34a224';
   incompleteColor: string = '#FF9800';
   showPopup: boolean = false;
+  editModeOn:boolean = false;
   selectedTopic: TopicItem = new TopicItem();
+  editMenu: MenuItem[] = [
+    {
+        label: 'Edit',
+        icon: 'pi pi-pencil',
+        command: () => {
+            this.editModeOn = true;
+        }
+    },
+    {
+        label: 'Delete',
+        icon: 'pi pi-trash',
+        command: () => {
+            this.removeTopic(this.selectedTopic);
+        }
+    }
+];
+
   ngOnInit() {
     this.topics = [
       { title: 'Lecture 1', icon: 'pi pi-book', completed: false},
@@ -69,5 +89,10 @@ export class TestComponent implements OnInit{
 
   onUpload(event: FileUploadHandlerEvent) {
     this.selectedTopic.file = event.files[0];
+  }
+
+  openEditMenu(event: any, menu: any) {
+    event.stopPropagation();
+    menu.toggle(event);
   }
 }

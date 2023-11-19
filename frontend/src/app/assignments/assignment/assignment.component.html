@@ -30,16 +30,17 @@
          </div>
          <p-timeline [@timelineAnimation]="topics.length" *ngIf="showProgress" [value]="topics" align="alternate" styleClass="customized-timeline">
            <ng-template pTemplate="marker" let-topic>
-           <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
-               <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
-           </span>
+            <span class="custom-marker shadow-2" [style.backgroundColor]="topic.completed? completedColor : incompleteColor">
+                <i class="custom-icon" [ngClass]="topic.icon" (click)="addTopic(topic)"></i>
+            </span>
            </ng-template>
            <ng-template pTemplate="content" let-topic>
              <p-card *ngIf="topic.title !== 'Add'">
                <ng-template pTemplate="header">
                  <div class="flex flex-grow-1 align-content-center justify-content-between p-2 px-3">
-                   <h2  class="m-0">{{topic.title}}</h2>
-                   <i class="x-button py-2 pi pi-times" (click)="removeTopic(topic)"></i>
+                   <h2 class="m-0">{{topic.title}}</h2>
+                   <p-menu class="relative top-0" #menu [model]="editMenu" [popup]="true" appendTo="body"></p-menu>
+                   <i class="x-button p-2 pi pi-ellipsis-h" (click)="selectedTopic = topic; openEditMenu($event, menu)"></i>
                  </div>
                </ng-template>
                <div *ngIf="!topic.file" class="flex flex-grow-1 align-content-center justify-content-between mt-2">
@@ -80,10 +81,16 @@
         <button pButton label="Remove" class="p-button-text p-1" (click)="removeAssignee()"></button>
       </p>
    </p-dialog>
+   <p-dialog [header]="'Edit ' + selectedTopic?.title" [(visible)]="editModeOn" [style]="{ width: '50vw', height: '50vm'}" [draggable]="false" [maximizable]="false" [closable]="false">
+    <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2"> 
+      <input pInputText [(ngModel)]="selectedTopic.title"/>
+      <button pButton label="Close" class="p-button-text p-1" (click)="editModeOn = false"></button>
+    </p>
+ </p-dialog>
    <p-dialog [header]="'Add Assignee'" [(visible)]="showAddAssignees" [modal]="true" [style]="{ width: '50vw', height: '15vw', overflow:'visible'}" [draggable]="false" [maximizable]="true">
      <p class="m-0 flex flex-grow-1 align-content-center justify-content-between mt-2">
        <input pInputText [(ngModel)]="newAssignee"/>
-       <p-dropdown appendTo="body" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topics" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
+       <p-dropdown appendTo="body" placeholder="Select a Topic" [(ngModel)]="selectedTopic" [options]="topicsNoAdd" optionLabel="title" [style]="{overflow: 'visible'}"></p-dropdown>
        <button pButton label="Add" class="p-button-text p-1" (click)="addAssignee()"></button>
      </p>
    </p-dialog>

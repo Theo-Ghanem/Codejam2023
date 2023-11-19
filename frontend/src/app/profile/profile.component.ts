@@ -53,9 +53,19 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.apiService.getItems(null).then((data: any) => {
-            this.gradedItems = data;
-        });
+        this.apiService.getItems(null).then(data => {
+            let array: GradedItem[] = [];
+            // iterate through object entries of data.items
+                for (let [key, value] of Object.entries(data.items)) {
+                    let v = value as string;
+                    let gradedItem = JSON.parse(v) as GradedItem;
+                    gradedItem.id = parseInt(key);
+                    gradedItem.dueDate = new Date(gradedItem.dueDate);
+                    array.push(gradedItem)
+                }
+                
+                //this.assignments = array.filter(a => a.type === 'assignments');
+            });
     }
 
     navToItem(){

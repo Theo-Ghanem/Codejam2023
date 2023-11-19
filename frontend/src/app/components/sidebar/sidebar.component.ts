@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import {ApiService} from "../../services/api.service";
 
 declare const $: any;
 declare interface RouteInfo {
@@ -18,31 +19,17 @@ export const ROUTES: RouteInfo[] = [
     title: 'Tests',  
     icon:'quiz', 
     class: '', 
-    subRoutes: [
-        { path: '/tests/1', title: 'Test 1', icon: 'quiz', class: '' },
-        { path: '/tests/2', title: 'Test 2', icon: 'quiz', class: '' },
-        // Add more subroutes as needed
-    ] 
+    subRoutes: []
   },
   { 
     path: '/assignments', 
     title: 'Assignments',  
     icon:'library_books', 
     class: '', 
-    subRoutes: [
-        { path: '/assignments/1', title: 'Assignment 1', icon: 'content_paste', class: '' },
-        { path: '/assignments/2', title: 'Assignment 2', icon: 'content_paste', class: '' },
-        // Add more subroutes as needed
-    ] 
+    subRoutes: []
   },
   { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-  
-  // { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
-  // { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
-  // { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },
-  // { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
   { path: '/user-profile', title: 'Settings',  icon:'settings', class: 'active-pro' }
-  // Add more routes as needed
 ];
 
 @Component({
@@ -54,7 +41,7 @@ export class SidebarComponent implements OnInit {
   menuItems: any[];
   activeRoute: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private apiService: ApiService) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -63,7 +50,9 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.menuItems = ROUTES
+    this.setSubRoutes('tests');
+    this.setSubRoutes('assignments');
   }
 
   isMobileMenu() {
@@ -94,4 +83,15 @@ export class SidebarComponent implements OnInit {
     // Check if the current route is active
     return this.router.url.includes(routePath);
   }
+
+  setSubRoutes(route: string) {
+        let index = this.menuItems.findIndex(item => item.path === '/' + route);
+        let testSubRoutes = [];
+        this.apiService.getItems(null).then(data => {
+            testSubRoutes = data.filter(t => t.type === route);
+        });
+        this.menuItems[index].subRoutes = testSubRoutes.map(item => {
+            return {path: `/${route}/${item.id}`, title: item.name, icon: 'quiz', class: ''}
+        })
+    }
 }

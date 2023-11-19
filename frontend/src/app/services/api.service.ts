@@ -31,5 +31,22 @@ export class ApiService {
     }
 
     return await response.json();
-  } // addPost(post: any): Observable<any> { //   return this.http.post<any>(`${this.apiUrl}/posts`, post); // } // updatePost(id: number, post: any): Observable<any> { //   return this.http.put<any>(`${this.apiUrl}/posts/${id}`, post); // } // deletePost(id: number): Observable<any> { //   return this.http.delete<any>(`${this.apiUrl}/posts/${id}`); // }
+  }
+  async getTasks(data: any) {
+    console.log(data);
+
+    const response = await fetch(`${this.apiUrl}/assignment`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  }
 }

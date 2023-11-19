@@ -9,6 +9,8 @@ convertapi.api_secret = 'ZIeRoUr3M6QY1kk7'
 from openai import OpenAI
 client = OpenAI()
 g_questions = {}
+assignments = {}
+
 
 app = Flask(__name__)
 CORS(app, origins=['http://localhost:4200'])
@@ -54,6 +56,75 @@ def grade():
     #     userId = request.args.get('user_id')
     # else:
         # Error 405 Method Not Allowed
+
+@app.route("/assignment", methods = ['GET', 'POST', 'PUT'])
+@cross_origin()
+def assignment():
+    if request.method == 'POST':
+        file = request.files['demo[]']
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filepath)
+
+        print(file.filename)
+        convertapi.convert('txt', {
+            'File': filepath
+        }, from_format = 'pdf').save_files(app.config['UPLOAD_FOLDER'])
+        questions = generate_tasks(file.filename)
+        print("aDone")
+        print(assignments)
+        return jsonify({'ok': 'True'})
+    
+    if request.method == 'PUT':
+        print("json is" + request.get_json())
+        name = request.get_json().split('.')[0]
+        print(g_questions.items())
+        questions = g_questions.get(name)
+        print("aDone2")
+        return jsonify({'ok': 'True', 'questions': questions})
+    
+        
+def generate_tasks(filename):
+    name = filename.split('.')[0]
+    new_filepath = os.path.join(app.config['UPLOAD_FOLDER'], name + '.txt')
+    question = "please take in the following assignment description and split it into manageable tasks assigned to 4 separate people. Please return to me a python dictionary with each task in chronological order with a title, list of assignees, and a description of the task: "
+    with open(new_filepath, 'r') as r: 
+        for line in r: 
+            if line.strip(): 
+                question += line
+
+    tasks = {}
+    while len(tasks) == 0:
+        message = client.beta.threads.messages.create(
+        thread_id=thread.id,
+        role="user",
+        content=question
+        )
+
+        run = client.beta.threads.runs.create(
+        thread_id=thread.id,
+        assistant_id=assistant.id
+        )
+        ready = False
+
+        while(not ready):
+            time.sleep(1)
+            run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id,
+            run_id=run.id
+            )
+            if run.status == "completed":
+                ready = True
+
+        messages = client.beta.threads.messages.list(
+        thread_id=thread.id
+        )
+        response = messages.data[0].content[0].text.value
+        tasks = response
+        # lines = response.split('\n')
+        # questions = [line.split('. ', 1)[1] for line in lines if line.strip().startswith(str(lines.index(line) + 1) + '. ')]
+   
+    assignments[name] = tasks
+
 
 
 @app.route("/topic", methods = ['GET', 'POST', 'PUT'])
